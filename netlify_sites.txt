@@ -1,0 +1,50 @@
+
+────────────────────────────┐
+ Current Netlify Projects │
+────────────────────────────┘
+
+Count: 9
+
+gradus-website-2026 - 6f87d431-5b58-4307-a32e-e891b84de92d
+  url:  https://gradus-website-2026.netlify.app
+  account: brandup308’s team
+─────────────────────────────────────────────────
+glittery-cuchufli-4f2b6e - f9bfe671-5dce-4a57-af2a-585b0ff8fae9
+  url:  https://glittery-cuchufli-4f2b6e.netlify.app
+  account: brandup308’s team
+─────────────────────────────────────────────────
+gradusbrief - 1d41a7d6-016a-4d85-b418-d8a9cc3b1c96
+  url:  https://gradusbrief.netlify.app
+  repo: https://github.com/ymgraphics/CMBrief_Gradus
+  account: brandup308’s team
+─────────────────────────────────────────────────
+gradusagency - 5e8940ec-9e8c-4a34-a73e-3b915d16f9fc
+  url:  https://gradusagency.netlify.app
+  repo: https://github.com/brandup308/gradusplatform
+  account: brandup308’s team
+─────────────────────────────────────────────────
+yasagency - 34e92240-d738-4aca-b205-ce087ce21ad8
+  url:  https://yasagency.netlify.app
+  repo: https://github.com/brandup308/portfolio-yastudio2
+  account: brandup308’s team
+─────────────────────────────────────────────────
+yastudioma - 1f6b8260-c74f-48ea-9ae8-49fb4b2c2a9b
+  url:  https://yastudioma.netlify.app
+  repo: https://github.com/brandup308/yastudio-v2
+  account: brandup308’s team
+─────────────────────────────────────────────────
+yastudio2 - d486b13e-3080-4a9e-bfcd-670978b41aef
+  url:  https://yastudio2.netlify.app
+  repo: https://github.com/brandup308/yastudio
+  account: brandup308’s team
+─────────────────────────────────────────────────
+yastudio - 019743c4-9343-4b65-8f68-46294288a186
+  url:  https://yastudio.netlify.app
+  repo: https://github.com/brandup308/portfolio
+  account: brandup308’s team
+─────────────────────────────────────────────────
+silly-toffee-0bf1ba - 79512825-78f6-4703-ae90-326e57b4e3ac
+  url:  https://silly-toffee-0bf1ba.netlify.app
+  repo: https://github.com/brandup308/invoice-manager
+  account: brandup308’s team
+─────────────────────────────────────────────────

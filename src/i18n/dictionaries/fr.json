@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Expertises",
+    "portfolio": "Réalisations",
+    "about": "L'Agence",
+    "blog": "Insights",
+    "contact": "Contact",
+    "cta": "Démarrer un projet"
+  },
+  "hero": {
+    "title1": "L'Agence Créative",
+    "title2": "Casablanca &",
+    "title3": "International.",
+    "subtitle": "Gradus Agency est le partenaire créatif de référence au Maroc. Nous conjuguons direction artistique haut de gamme, production audiovisuelle premium et stratégies d'acquisition ciblées. Conçu pour élever votre marque et dominer votre marché.",
+    "tagline": "Branding, image, mouvement — pour les maisons ambitieuses.",
+    "cta": "Réserver un audit stratégique",
+    "cta2": "Explorer nos réalisations"
+  },
+  "marquee": {
+    "placeholder": "EXCELLENCE DIGITALE"
+  },
+  "stats": {
+    "projects": "Marques élevées",
+    "people": "Experts créatifs",
+    "collaborations": "Partenaires stratégiques",
+    "years": "Années d'excellence"
+  },
+  "process": {
+    "title1": "Notre",
+    "title2": "Approche.",
+    "step1": "Immersion",
+    "step1desc": "Analyse approfondie de votre écosystème de marque, de votre vision à long terme et de vos cibles stratégiques.",
+    "step2": "Stratégie",
+    "step2desc": "Élaboration d'un plan d'acquisition digital sur-mesure, conçu spécifiquement pour devancer vos concurrents.",
+    "step3": "Création",
+    "step3desc": "Déploiement d'une direction artistique premium pour sublimer votre identité et asseoir votre autorité.",
+    "step4": "Expansion",
+    "step4desc": "Lancement de campagnes publicitaires percutantes, optimisation continue et maximisation du retour sur investissement."
+  },
+  "services": {
+    "title1": "Nos",
+    "title2": "Expertises.",
+    "branding": "Conception de chartes graphiques prestigieuses et développement d'identités de marque mémorables.",
+    "web": "Développement de sites vitrines haut de gamme et d'applications web ultra-performantes orientées conversion.",
+    "social": "Stratégie d'influence, création de contenu exclusif et fédération de communautés engagées.",
+    "photo": "Direction de séances photo éditoriales et conception de campagnes visuelles à fort impact émotionnel.",
+    "video": "Production de spots publicitaires cinématiques, de documentaires de marque et de contenus vidéo premium.",
+    "strategy": "Audits de marque immersifs et définition de stratégies de positionnement d'élite.",
+    "s3d": "Modélisation tridimensionnelle avancée et rendus architecturaux d'un réalisme absolu.",
+    "ads": "Pilotage de campagnes publicitaires d'acquisition axées sur la rentabilité immédiate et la croissance."
+  },
+  "portfolio": {
+    "title1": "Nos",
+    "title2": "Réalisations.",
+    "all": "Toutes nos expertises",
+    "gallery": "Immersion visuelle",
+    "services": "Solutions déployées pour ce partenaire :"
+  },
+  "team": {
+    "title1": "Le Cercle",
+    "title2": "Dirigeant.",
+    "subtitle": "Un collectif pluridisciplinaire d'exception réunissant des stratèges digitaux visionnaires, des directeurs artistiques audacieux et des réalisateurs primés."
+  },
+  "footer": {
+    "tagline": "L'agence créative de référence en marketing digital et production audiovisuelle à Casablanca. L'excellence au service de votre croissance.",
+    "agency": "Gradus Agency",
+    "contact": "Prendre contact",
+    "cta": "Propulsez votre marque",
+    "rights": "© 2026 Gradus Agency. Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "legal": "Mentions légales"
+  },
+  "seo": {
+    "about": {
+      "title": "À Propos | Gradus Agency",
+      "description": "Découvrez l'Agence Gradus, collectif de créatifs et de stratèges digitaux à Casablanca. L'excellence au service des marques premium."
+    },
+    "blog": {
+      "title": "Insights & Stratégies | Gradus",
+      "description": "Découvrez notre blog : analyses expertes, tendances design, direction artistique et stratégies d'acquisition digitale au Maroc."
+    },
+    "coming_soon": {
+      "title": "Bientôt disponible | Gradus",
+      "description": "Gradus Agency — Quelque chose d'exceptionnel arrive. Restez à l'écoute."
+    },
+    "contact": {
+      "title": "Contactez-nous | Gradus Agency",
+      "description": "Prêt à propulser votre marque ? Contactez Gradus, votre agence partenaire en création et stratégie digitale à Casablanca."
+    },
+    "faq": {
+      "title": "FAQ | Gradus Agency",
+      "description": "Des questions sur notre approche, nos délais ou notre processus de création ? Retrouvez toutes les réponses de nos experts."
+    },
+    "legal": {
+      "title": "Mentions Légales | Gradus Agency",
+      "description": "Consultez les mentions légales de Gradus Agency, agence de communication et marketing premium à Casablanca."
+    },
+    "privacy": {
+      "title": "Politique de Confidentialité | Gradus Agency",
+      "description": "Consultez la politique de confidentialité de Gradus Agency. Découvrez comment nous sécurisons et protégeons vos données."
+    }
+  },
+  "notfound": {
+    "title": "Page Non Trouvée",
+    "description": "Il semble que la page que vous recherchez n'existe plus ou a été déplacée. Retournons à l'essentiel pour propulser votre marque.",
+    "back": "Retour à l'accueil"
+  }
+}

@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── GRADUS v2 — THE SETBACK ─────────────────────────────── */
+  --color-void: #08090B;
+  --color-surface: #101114;
+  --color-border: rgba(236, 237, 233, 0.07);
+  --color-text-primary: #ECEDE9;
+  --color-text-secondary: #8E9089;
+  --color-accent: #6050DC; /* Majorelle blue */
+
+  /* Legacy aliases — admin runtime overrides target the gradus-* names */
+  --color-gradus-primary: var(--color-void);
+  --color-gradus-surface: var(--color-surface);
+  --color-gradus-border: var(--color-border);
+  --color-gradus-text: var(--color-text-primary);
+  --color-gradus-muted: var(--color-text-secondary);
+  --color-gradus-light: #F5F5F0;
+  --color-gradus-gold: var(--color-accent);
+  --color-gradus-orange: #E85D24;
+  --color-gradus-cream: #F2EDE4;
+
+  --font-display: var(--font-clash-display, "SF Pro Display"), "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-heading: var(--font-clash-display, "SF Pro Display"), "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-body: var(--font-instrument-sans, "SF Pro Text"), system-ui, sans-serif;
+  --font-mono: var(--font-fragment-mono, "SFMono-Regular"), "SF Mono", Consolas, monospace;
+
+  /* Type scale — 7 steps, fluid 375 → 1440 */
+  --text-display-xl: clamp(2.25rem, 0.15rem + 9vw, 8.25rem);
+  --text-display-xl--line-height: 0.92;
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display-xl--font-weight: 600;
+  --text-display-lg: clamp(2.5rem, 1.3rem + 5.1vw, 5.5rem);
+  --text-display-lg--line-height: 0.98;
+  --text-display-lg--letter-spacing: -0.025em;
+  --text-display-lg--font-weight: 600;
+  --text-display-md: clamp(1.875rem, 1.2rem + 2.9vw, 3.5rem);
+  --text-display-md--line-height: 1.05;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-md--font-weight: 500;
+  --text-heading: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.01em;
+  --text-heading--font-weight: 500;
+  --text-body: clamp(1rem, 0.97rem + 0.15vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.5;
+  --text-utility: 0.6875rem;
+  --text-utility--line-height: 1.2;
+  --text-utility--letter-spacing: 0.18em;
+
+  --animate-fadeIn: fadeIn 0.4s ease-out forwards;
+  --animate-scaleIn: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.25rem; /* 20px mobile margin */
+  max-width: 1440px;
+}
+
+/* Grid margins: 40px tablet, 80px desktop (unlayered so they win over the utility) */
+@media (min-width: 640px) {
+  .container { padding-inline: 2.5rem; }
+}
+@media (min-width: 1024px) {
+  .container { padding-inline: 5rem; }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-gradus-primary);
+    color: var(--color-gradus-text);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@layer components {
+  .liquid-glass {
+    @apply bg-white/[0.03] backdrop-blur-[20px] border border-white/10;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-refraction {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-refraction::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transform: skewX(-25deg);
+    transition: 0.75s;
+  }
+
+  .glass-refraction:hover::before {
+    left: 150%;
+  }
+
+  .text-glass {
+    background: linear-gradient(150deg, #fff 25%, rgba(255, 255, 255, 0.62) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Unified vertical rhythm for page sections */
+  .section-y {
+    @apply py-24 md:py-36;
+  }
+
+  /* Shared card treatment: hairline border, stepped lift on hover */
+  .card-lift {
+    @apply border border-white/8 rounded-2xl;
+    transition: transform 0.25s steps(2, jump-end), border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .card-lift:hover {
+    @apply border-accent/40;
+    transform: translateY(-8px);
+    box-shadow:
+      0 20px 40px -16px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(96, 80, 220, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── THE SETBACK primitives ─────────────────────────────── */
+
+  /* Utility label: machine-set metadata */
+  .label-utility {
+    @apply font-mono text-utility uppercase text-text-secondary;
+  }
+
+  /* Step-rule: a hairline that steps down 8px at --step-at, then continues */
+  .step-rule {
+    position: relative;
+    height: 9px;
+    --step-at: 30%;
+  }
+
+  .step-rule::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--step-at);
+    height: 9px;
+    border-top: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .step-rule::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: var(--step-at);
+    right: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Stepped hover: movement in discrete 4px increments — click, click */
+  .step-x {
+    transition: transform 0.25s steps(2, jump-end);
+  }
+
+  .step-x:hover {
+    transform: translateX(8px);
+  }
+
+  /* Underline-reveal for nav links and inline CTAs */
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}

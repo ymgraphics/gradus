@@ -1,0 +1,21 @@
+{
+  "name": "Gradus Agency",
+  "short_name": "Gradus",
+  "description": "Agence Créative & Marketing Digital à Casablanca",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
