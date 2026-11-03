@@ -17,7 +17,7 @@ export default function Marquee({ partners = [] }: MarqueeProps) {
   const displayPartners = partners.length > 0 ? partners : fallbackPartners;
 
   return (
-    <div className="w-full bg-gradus-surface border-y border-gradus-border overflow-hidden py-8 md:py-12 group flex items-center relative z-10">
+    <div className="w-full bg-gradus-surface border-y border-gradus-border overflow-hidden marquee-viewport py-8 md:py-12 group flex items-center relative z-10">
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes marqueeScroll {
           0% { transform: translate3d(0, 0, 0); }
@@ -28,15 +28,26 @@ export default function Marquee({ partners = [] }: MarqueeProps) {
           width: max-content;
           animation: marqueeScroll 45s linear infinite;
         }
-        .animate-marquee-css:hover {
+        .animate-marquee-css:hover,
+        .animate-marquee-css:focus-within {
           animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-marquee-css { animation: none; }
+          .marquee-viewport { overflow-x: auto; }
         }
       `}} />
 
       <div className="animate-marquee-css">
         {/* We render twice to create the infinite loop effect */}
         {[1, 2].map((set) => (
-          <div key={`set-${set}`} className="flex shrink-0 px-4 md:px-8">
+          // The second set only exists to close the loop: hide it from AT and
+          // drop it entirely when motion is reduced.
+          <div
+            key={`set-${set}`}
+            className={`flex shrink-0 px-4 md:px-8 ${set === 2 ? "motion-reduce:hidden" : ""}`}
+            aria-hidden={set === 2 ? true : undefined}
+          >
             {displayPartners.map((partner, index) => (
               <div 
                 key={`${set}-${partner.id}-${index}`} 

@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion, Variants, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Pause, Play } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const SHOWREEL_MP4 =
@@ -13,6 +14,28 @@ const SHOWREEL_POSTER =
 export default function Hero() {
   const { t, lang } = useLanguage();
   const reduced = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  // Autoplay only when the visitor hasn't asked for reduced motion. Starting
+  // playback here (not via the autoPlay attribute) means it never begins
+  // before we know the preference.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || reduced === null) return;
+    if (reduced) {
+      video.pause();
+    } else {
+      video.play().catch(() => {});
+    }
+  }, [reduced]);
+
+  const toggleVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
+  };
 
   const lines = [t("hero.title1"), t("hero.title2"), t("hero.title3")];
 
@@ -99,9 +122,11 @@ export default function Hero() {
             variants={fade}
             className="lg:col-span-4 lg:col-start-9"
           >
-            <div className="border border-gradus-border p-1.5">
+            <div className="relative border border-gradus-border p-1.5">
               <video
-                autoPlay
+                ref={videoRef}
+                onPlay={() => setPlaying(true)}
+                onPause={() => setPlaying(false)}
                 loop
                 muted
                 playsInline
@@ -112,6 +137,18 @@ export default function Hero() {
               >
                 <source src={SHOWREEL_MP4} type="video/mp4" />
               </video>
+              <button
+                type="button"
+                onClick={toggleVideo}
+                aria-label={
+                  playing
+                    ? lang === "fr" ? "Mettre le showreel en pause" : "Pause showreel"
+                    : lang === "fr" ? "Lire le showreel" : "Play showreel"
+                }
+                className="absolute bottom-4 right-4 w-10 h-10 flex items-center justify-center border border-white/30 bg-void/60 backdrop-blur-md text-text-primary hover:bg-accent hover:border-accent transition-colors duration-300"
+              >
+                {playing ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+              </button>
             </div>
             <p className="label-utility mt-3 flex items-center justify-between">
               <span>▸ Showreel ’26</span>

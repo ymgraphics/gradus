@@ -1,16 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, Facebook } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useDialog } from "@/lib/useDialog";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { lang, setLang, t } = useLanguage();
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const closeMenu = useCallback(() => setMobileMenuOpen(false), []);
+
+  // Open menu is a full-screen modal: Escape closes, Tab stays inside the
+  // header (logo, toggle, menu), and the page behind stops scrolling.
+  useDialog({
+    open: mobileMenuOpen,
+    containerRef: headerRef,
+    onClose: closeMenu,
+    initialFocusRef: toggleRef,
+  });
 
   useEffect(() => {
     let ticking = false;
@@ -37,6 +50,7 @@ export default function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
         scrolled
           ? "bg-void/85 backdrop-blur-xl border-gradus-border py-3"
@@ -58,12 +72,14 @@ export default function Navbar() {
         {/* Right cluster: two anchors + lang + menu trigger */}
         <nav className="flex items-center gap-6 md:gap-10" aria-label="Navigation principale">
           <Link
+            inert={mobileMenuOpen}
             href="/#portfolio"
             className="link-underline hidden md:inline-block label-utility text-text-primary/70 hover:text-text-primary transition-colors interactive"
           >
             {t("nav.portfolio")}
           </Link>
           <Link
+            inert={mobileMenuOpen}
             href="/contact"
             className="link-underline hidden md:inline-block label-utility text-text-primary/70 hover:text-text-primary transition-colors interactive"
           >
@@ -71,6 +87,7 @@ export default function Navbar() {
           </Link>
 
           <button
+            inert={mobileMenuOpen}
             onClick={() => setLang(lang === "fr" ? "en" : "fr")}
             className="hidden md:flex label-utility text-text-primary/70 hover:text-text-primary transition-colors items-center gap-1.5 interactive"
             aria-label={lang === "fr" ? "Passer en anglais" : "Switch to French"}
@@ -81,6 +98,7 @@ export default function Navbar() {
           </button>
 
           <button
+            ref={toggleRef}
             className="relative z-50 flex items-center gap-3 label-utility text-text-primary interactive"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}

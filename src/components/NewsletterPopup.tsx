@@ -5,9 +5,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { subscribeToNewsletter } from "@/app/actions/newsletter";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useDialog } from "@/lib/useDialog";
 
 const POPUP_KEY = "gradus_popup_seen";
 const SCROLL_TRIGGER_RATIO = 0.45;
+
+function hasSeenPopup() {
+  try {
+    return localStorage.getItem(POPUP_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
 
 export default function NewsletterPopup() {
   const { lang } = useLanguage();
@@ -16,6 +25,7 @@ export default function NewsletterPopup() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   const copy = {
     eyebrow: lang === "fr" ? "NEWSLETTER GRADUS" : "GRADUS NEWSLETTER",
@@ -48,17 +58,17 @@ export default function NewsletterPopup() {
 
   const closePopup = useCallback(() => {
     setIsOpen(false);
-    localStorage.setItem(POPUP_KEY, "true");
+    try {
+      localStorage.setItem(POPUP_KEY, "true");
+    } catch {}
   }, []);
 
   const openPopup = useCallback(() => {
-    if (localStorage.getItem(POPUP_KEY) !== "true") {
-      setIsOpen(true);
-    }
+    if (!hasSeenPopup()) setIsOpen(true);
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem(POPUP_KEY) === "true") return;
+    if (hasSeenPopup()) return;
 
     let ticking = false;
     const handleScroll = () => {
@@ -87,25 +97,13 @@ export default function NewsletterPopup() {
     };
   }, [openPopup]);
 
-  // Control body scroll
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      // Auto-focus email input
-      setTimeout(() => inputRef.current?.focus(), 400);
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isOpen]);
-
-  // Handle Escape key
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closePopup();
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [closePopup]);
+  // Escape, focus trap + restore, and scroll lock (incl. Lenis).
+  useDialog({
+    open: isOpen,
+    containerRef: dialogRef,
+    onClose: closePopup,
+    initialFocusRef: inputRef,
+  });
 
   function isValidEmail(email: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -145,6 +143,7 @@ export default function NewsletterPopup() {
     <AnimatePresence>
       {isOpen && (
         <div
+          ref={dialogRef}
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/78 backdrop-blur-[8px]"
           role="dialog"
           aria-modal="true"

@@ -23,6 +23,9 @@ const FluidBackground: React.FC = () => {
           animation: ambientDrift 25s ease-in-out infinite;
           will-change: transform;
         }
+        @media (prefers-reduced-motion: reduce) {
+          .ambient-mesh { animation: none; will-change: auto; }
+        }
       `}} />
       
       {/* Premium Hardware-Accelerated Ambient Layer */}

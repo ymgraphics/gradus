@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { 
   MessageSquare, 
   Calendar, 
@@ -16,6 +16,8 @@ import {
   ChevronRight
 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useDialog } from "@/lib/useDialog";
+import { sendLeadAction } from "@/app/actions/sendEmail";
 
 export default function ConversionHub() {
   const { lang } = useLanguage();
@@ -28,6 +30,20 @@ export default function ConversionHub() {
   const [clientContact, setClientContact] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeHub = useCallback(() => setIsOpen(false), []);
+
+  // Non-modal panel: the page stays usable, so no focus trap or scroll lock,
+  // but Escape closes it and focus moves in on open / back to the trigger on close.
+  useDialog({
+    open: isOpen,
+    containerRef: drawerRef,
+    onClose: closeHub,
+    trapFocus: false,
+    lockScroll: false,
+  });
 
   // Monitor scroll for sticky CTA entrance
   useEffect(() => {
@@ -45,17 +61,41 @@ export default function ConversionHub() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLeadSubmit = async (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!clientName || !clientContact) return;
 
     setIsSubmitting(true);
-    // Simulate lead registration (and optionally forward to Firestore/Webhook)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setSubmitError("");
+
+    const formData = new FormData(e.currentTarget);
+    formData.set("service", selectedService);
+
+    let result: Awaited<ReturnType<typeof sendLeadAction>>;
+    try {
+      result = await sendLeadAction(formData);
+    } catch {
+      result = { error: "send_failed" };
+    }
     setIsSubmitting(false);
+
+    if ("error" in result && result.error) {
+      const fr = lang === "fr";
+      setSubmitError(
+        result.error === "invalid"
+          ? fr ? "Vérifiez votre nom et votre numéro WhatsApp." : "Please check your name and WhatsApp number."
+          : result.error === "rate_limited"
+            ? fr ? "Trop de tentatives. Réessayez dans quelques minutes." : "Too many attempts. Please try again in a few minutes."
+            : result.error === "missing"
+              ? fr ? "Merci de remplir les deux champs." : "Please fill in both fields."
+              : fr ? "L'envoi a échoué. Réessayez ou écrivez-nous sur WhatsApp." : "Sending failed. Please try again or message us on WhatsApp."
+      );
+      return;
+    }
+
     setFormSubmitted(true);
-    
-    // Auto-close after success banner
+
+    // Reset the form after the success banner has been read
     setTimeout(() => {
       setFormSubmitted(false);
       setClientName("");
@@ -73,7 +113,8 @@ export default function ConversionHub() {
   return (
     <>
       {/* 1. Sticky Scrolling CTA Pill (Slides in bottom-left corner) */}
-      <div 
+      <div
+        inert={!(showStickyCta && !isOpen)}
         className={`fixed bottom-6 left-6 z-40 transition-all duration-500 transform hidden sm:block ${
           showStickyCta && !isOpen 
             ? "translate-y-0 opacity-100 scale-100" 
@@ -103,7 +144,13 @@ export default function ConversionHub() {
         
         <button
           id="conversion-fab"
-          aria-label="Open conversion panel"
+          aria-label={
+            isOpen
+              ? lang === "fr" ? "Fermer le panneau de contact" : "Close contact panel"
+              : lang === "fr" ? "Ouvrir le panneau de contact" : "Open contact panel"
+          }
+          aria-expanded={isOpen}
+          aria-controls="conversion-hub"
           onClick={() => setIsOpen(!isOpen)}
           className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border ${
             isOpen 
@@ -123,7 +170,13 @@ export default function ConversionHub() {
       </div>
 
       {/* 3. Immersive Glassmorphic Conversion Hub Drawer */}
-      <div 
+      <div
+        ref={drawerRef}
+        id="conversion-hub"
+        role="dialog"
+        aria-modal="false"
+        aria-label={lang === "fr" ? "Contacter Gradus" : "Contact Gradus"}
+        inert={!isOpen}
         className={`fixed right-6 bottom-24 z-50 w-[92vw] sm:w-[400px] max-h-[80vh] overflow-y-auto rounded-[28px] bg-gradus-primary/95 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-500 origin-bottom-right transform ${
           isOpen 
             ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" 
@@ -236,6 +289,15 @@ export default function ConversionHub() {
               </div>
             ) : (
               <form onSubmit={handleLeadSubmit} className="flex flex-col gap-3">
+                {/* Honeypot: hidden from people, filled by bots */}
+                <input
+                  type="text"
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] w-px h-px opacity-0"
+                />
                 <h4 className="text-xs font-heading font-extrabold text-white tracking-wide uppercase flex items-center gap-1.5">
                   <Sparkles size={12} className="text-accent" /> 
                   {lang === "fr" ? "Évaluer mon investissement digital" : "Evaluate my digital investment"}
@@ -248,6 +310,7 @@ export default function ConversionHub() {
                       key={srv.id}
                       type="button"
                       onClick={() => setSelectedService(srv.id)}
+                      aria-pressed={selectedService === srv.id}
                       className={`text-[9px] font-heading font-medium py-1.5 px-0.5 rounded-lg border text-center transition-all ${
                         selectedService === srv.id
                           ? "bg-accent border-accent text-black"
@@ -260,8 +323,15 @@ export default function ConversionHub() {
                 </div>
 
                 {/* Inputs */}
+                <label htmlFor="hub-name" className="sr-only">
+                  {lang === "fr" ? "Votre nom ou entreprise" : "Your name or company"}
+                </label>
                 <input
+                  id="hub-name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
+                  maxLength={120}
                   placeholder={lang === "fr" ? "Votre nom / Entreprise" : "Your Name / Company"}
                   required
                   value={clientName}
@@ -269,14 +339,29 @@ export default function ConversionHub() {
                   className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
                 />
 
+                <label htmlFor="hub-phone" className="sr-only">
+                  {lang === "fr" ? "Numéro WhatsApp" : "WhatsApp number"}
+                </label>
                 <input
-                  type="text"
+                  id="hub-phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
                   placeholder={lang === "fr" ? "Téléphone WhatsApp" : "WhatsApp Number"}
+                  aria-invalid={submitError ? true : undefined}
+                  aria-describedby={submitError ? "hub-error" : undefined}
                   required
                   value={clientContact}
                   onChange={(e) => setClientContact(e.target.value)}
                   className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
                 />
+
+                {submitError && (
+                  <p id="hub-error" role="alert" className="text-xs text-red-300">
+                    {submitError}
+                  </p>
+                )}
 
                 <button
                   type="submit"
@@ -284,7 +369,10 @@ export default function ConversionHub() {
                   className="w-full bg-gradient-to-r from-accent to-gradus-orange hover:from-white hover:to-white hover:scale-[1.02] text-black font-heading font-extrabold text-xs py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
-                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <>
+                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                      <span className="sr-only">{lang === "fr" ? "Envoi en cours" : "Sending"}</span>
+                    </>
                   ) : (
                     <>
                       {lang === "fr" ? "Valider Ma Demande" : "Submit Request"}

@@ -252,3 +252,20 @@
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+/* Respect the OS reduced-motion setting for decorative, looping motion.
+   Loading spinners (.animate-spin) are kept: they convey state. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .animate-bounce,
+  .animate-ping,
+  .animate-blob,
+  .glass-refraction::before {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}

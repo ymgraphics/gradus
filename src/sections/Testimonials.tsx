@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Pause, Play, Star } from "lucide-react";
 import type { Feedback } from "@/lib/firebase-rest";
 import { useLanguage } from "@/i18n/LanguageContext";
 import Image from "next/image";
@@ -12,6 +13,7 @@ interface TestimonialsProps {
 
 export default function Testimonials({ feedbacks }: TestimonialsProps) {
   const { lang } = useLanguage();
+  const [paused, setPaused] = useState(false);
   if (feedbacks.length === 0) return null;
 
   // Duplicate items for infinite scroll effect
@@ -40,22 +42,51 @@ export default function Testimonials({ feedbacks }: TestimonialsProps) {
         </motion.div>
       </div>
 
-      <div className="relative flex group">
-        <motion.div
-          animate={{
-            x: ["0%", "-33.33%"],
-          }}
-          transition={{
-            duration: 50,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="flex gap-6 md:gap-10 px-4"
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes testimonialsScroll {
+          from { transform: translate3d(0, 0, 0); }
+          to { transform: translate3d(-33.333%, 0, 0); }
+        }
+        .testimonials-track {
+          animation: testimonialsScroll 50s linear infinite;
+        }
+        .testimonials-track[data-paused="true"],
+        .testimonials-track:hover,
+        .testimonials-track:focus-within {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .testimonials-track { animation: none; }
+          .testimonials-viewport { overflow-x: auto; }
+          .testimonials-dupe, .testimonials-toggle { display: none; }
+        }
+      `}} />
+
+      <div className="container flex justify-end mb-6">
+        <button
+          type="button"
+          onClick={() => setPaused((p) => !p)}
+          aria-pressed={paused}
+          className="testimonials-toggle label-utility inline-flex items-center gap-2 text-text-primary/70 hover:text-text-primary transition-colors"
+        >
+          {paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
+          {paused
+            ? lang === "fr" ? "Reprendre le défilement" : "Resume scrolling"
+            : lang === "fr" ? "Mettre en pause" : "Pause scrolling"}
+        </button>
+      </div>
+
+      <div className="testimonials-viewport relative flex group">
+        <div
+          data-paused={paused}
+          className="testimonials-track flex gap-6 md:gap-10 px-4"
         >
           {displayFeedbacks.map((item, idx) => (
             <div
               key={`${item.id}-${idx}`}
-              className="liquid-glass w-[320px] md:w-[450px] lg:w-[550px] flex-shrink-0 rounded-[40px] p-8 md:p-12 hover:border-accent/30 transition-all duration-700 shadow-2xl relative overflow-hidden group/card"
+              // Only the first copy is real content; the others close the loop.
+              aria-hidden={idx >= feedbacks.length ? true : undefined}
+              className={`${idx >= feedbacks.length ? "testimonials-dupe " : ""}liquid-glass w-[320px] md:w-[450px] lg:w-[550px] flex-shrink-0 rounded-[40px] p-8 md:p-12 hover:border-accent/30 transition-all duration-700 shadow-2xl relative overflow-hidden group/card`}
             >
               <div className="flex gap-2 mb-8">
                 {[...Array(5)].map((_, i) => (
@@ -93,7 +124,7 @@ export default function Testimonials({ feedbacks }: TestimonialsProps) {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

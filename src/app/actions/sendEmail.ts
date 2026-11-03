@@ -115,3 +115,74 @@ export async function sendEmailAction(formData: FormData) {
     return { error: "Une erreur est survenue lors de l'envoi du message." };
   }
 }
+
+const LEAD_SERVICES: Record<string, string> = {
+  branding: "Branding & Logo",
+  "social-media": "Social Media",
+  video: "Vidéo / Reels",
+  "web-design": "Web Design",
+};
+
+function isValidPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  return /^[+\d\s().-]+$/.test(phone) && digits.length >= 8 && digits.length <= 15;
+}
+
+/**
+ * Quick estimate request from the floating ConversionHub panel.
+ * Collects a name and a WhatsApp number (no email), so it gets its own action.
+ */
+export async function sendLeadAction(formData: FormData) {
+  const name = readField(formData, "name");
+  const phone = readField(formData, "phone");
+  const serviceId = readField(formData, "service");
+  const company = readField(formData, "company");
+
+  // Honeypot: silently accept bot submissions.
+  if (company) {
+    return { success: true };
+  }
+
+  if (!name || !phone) {
+    return { error: "missing" as const };
+  }
+
+  if (name.length > 120 || !isValidPhone(phone)) {
+    return { error: "invalid" as const };
+  }
+
+  if (isRateLimited(`lead:${phone.replace(/\D/g, "")}`)) {
+    return { error: "rate_limited" as const };
+  }
+
+  const service = LEAD_SERVICES[serviceId] ?? "Non précisé";
+  const safeName = escapeHtml(name);
+  const safePhone = escapeHtml(phone);
+  const waNumber = phone.replace(/\D/g, "");
+  const agencyEmail = process.env.CONTACT_TO_EMAIL || "contact@gradus.ma";
+  const fromEmail = process.env.CONTACT_FROM_EMAIL || "Gradus Agency <contact@measbahrain.live>";
+
+  try {
+    const result = await resend.emails.send({
+      from: fromEmail,
+      to: agencyEmail,
+      subject: `Demande d'estimation Gradus: ${service} — ${name}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #111111;">Nouvelle demande d'estimation (widget du site)</h2>
+          <p><strong>Nom / Entreprise :</strong> ${safeName}</p>
+          <p><strong>WhatsApp :</strong> <a href="https://wa.me/${waNumber}">${safePhone}</a></p>
+          <p><strong>Service :</strong> ${escapeHtml(service)}</p>
+        </div>
+      `,
+    });
+
+    if (result.error) {
+      return { error: "send_failed" as const };
+    }
+
+    return { success: true };
+  } catch {
+    return { error: "send_failed" as const };
+  }
+}
