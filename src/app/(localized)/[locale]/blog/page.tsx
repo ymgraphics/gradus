@@ -5,10 +5,9 @@ import type { Locale } from "@/i18n-config";
 import Navbar from "@/layouts/Navbar";
 import Footer from "@/layouts/Footer";
 import Image from "next/image";
-import Link from "next/link";
 import { getRestProjects } from "@/lib/firebase-rest";
 import { defaultProjects, SITE_URL } from "@/lib/constants";
-import { Calendar, User, ArrowRight, Sparkles, Newspaper } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -70,7 +69,7 @@ export default async function BlogPage() {
     if (!projects || projects.length === 0) {
       projects = defaultProjects;
     }
-  } catch (error) {
+  } catch {
     projects = defaultProjects;
   }
 
@@ -123,7 +122,7 @@ export default async function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white selection:bg-gradus-gold selection:text-black font-body">
+    <div className="min-h-screen bg-void text-text-primary font-body">
       <Navbar />
 
       {/* Script injection for structured SEO blog data */}
@@ -133,79 +132,60 @@ export default async function BlogPage() {
       />
 
       {/* Hero Header */}
-      <section className="relative pt-36 pb-20 md:py-48 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-gradus-gold/5 blur-[150px] rounded-full" />
-          <div className="absolute bottom-[20%] right-[-10%] w-[40%] h-[40%] bg-white/[0.02] blur-[120px] rounded-full" />
-        </div>
-
-        <div className="container relative z-10 max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
-              <Newspaper size={12} className="text-gradus-gold" />
-              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
-                Insights & Inspirations
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-normal text-white">
-              Le Journal de <span className="text-gradus-gold">la Créativité.</span>
-            </h1>
-            <p className="mt-10 text-lg md:text-2xl text-white/50 leading-relaxed font-light font-body max-w-3xl">
-              Secrets de production vidéo, guides de branding, analyses de campagnes et retours d'expérience de notre collectif à Casablanca.
-            </p>
-          </div>
+      <section className="relative pt-40 pb-20 md:pt-48 md:pb-28">
+        <div className="container">
+          <p className="label-utility mb-10 flex items-center gap-3">
+            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+            Insights & Inspirations
+          </p>
+          <h1 className="text-display-xl font-display text-text-primary max-w-6xl">
+            Le Journal de <span className="text-accent">la Créativité.</span>
+          </h1>
+          <p className="mt-12 md:ml-[16.666%] text-body text-text-secondary max-w-2xl">
+            Secrets de production vidéo, guides de branding, analyses de campagnes et retours d&apos;expérience de notre collectif à Casablanca.
+          </p>
         </div>
       </section>
 
-      {/* Blog Cards Grid */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#080808] to-[#0b0b0b]">
-        <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <article key={post.id} className="liquid-glass border border-white/5 rounded-3xl overflow-hidden hover:border-white/15 transition-all duration-700 hover:-translate-y-2 group flex flex-col justify-between text-left">
-                <div>
-                  <div className="relative aspect-video w-full bg-white/[0.02] overflow-hidden">
-                    <Image
-                      src={post.coverImage}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
-                    />
-                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-[11px] font-mono tracking-wider uppercase text-accent-text">
-                      {post.category}
-                    </div>
-                  </div>
-
-                  <div className="p-8">
-                    {/* Meta info row */}
-                    <div className="flex items-center gap-4 text-white/60 text-[11px] font-mono uppercase tracking-widest mb-4">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar size={10} />
-                        <span>{post.date}</span>
-                      </div>
-                      <div className="w-1 h-1 bg-white/20 rounded-full" />
-                      <div className="flex items-center gap-1.5">
-                        <User size={10} />
-                        <span>{post.author}</span>
-                      </div>
-                    </div>
-
-                    <h3 className="text-xl md:text-2xl font-heading font-bold text-white group-hover:text-gradus-gold transition-colors duration-300 mb-4 line-clamp-3 leading-snug">
-                      {post.title}
-                    </h3>
-                    <p className="text-white/60 text-sm leading-relaxed font-body line-clamp-4">
-                      {post.excerpt}
-                    </p>
-                  </div>
+      {/* Article list */}
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16">
+            {blogPosts.map((post, i) => (
+              <article
+                key={post.id}
+                style={{ "--i": i % 3 } as React.CSSProperties}
+                className="group flex flex-col text-left lg:mt-[calc(var(--i)*3rem)]"
+              >
+                <div className="relative aspect-video w-full border border-gradus-border bg-surface overflow-hidden">
+                  <Image
+                    src={post.coverImage}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                  />
                 </div>
 
-                <div className="p-8 pt-0 mt-auto">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono text-white/50 group-hover:text-accent-text transition-colors duration-300 font-bold uppercase tracking-wider">
-                    Lire l'article
-                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300 text-gradus-gold" />
-                  </div>
+                <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-gradus-border pt-4">
+                  <span className="label-utility text-accent-text">{post.category}</span>
+                  <span className="label-utility text-text-secondary whitespace-nowrap">{post.date}</span>
                 </div>
+
+                <h2 className="mt-4 text-heading font-display text-text-primary line-clamp-3">
+                  {post.title}
+                </h2>
+                <p className="mt-3 text-caption text-text-secondary line-clamp-4">
+                  {post.excerpt}
+                </p>
+
+                <p className="mt-6 label-utility text-text-secondary flex items-center justify-between gap-4">
+                  <span>{post.author}</span>
+                  <span className="inline-flex items-center gap-2 group-hover:text-text-primary transition-colors duration-300">
+                    Lire l&apos;article
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
+                  </span>
+                </p>
               </article>
             ))}
           </div>

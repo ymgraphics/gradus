@@ -368,33 +368,38 @@ export default async function ServiceLandingPage({ params }: { params: Promise<{
   };
 
   return (
-    <main className="bg-gradus-primary">
+    <main className="bg-void">
       {/* Inject specific Service Schema.org JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
       />
-      <ServiceClient slug={slug} serviceData={serviceData} projects={projects} />
-      
-      {/* SEO Internal Linking: Contextual Related Projects */}
-      {projects && projects.length > 0 && (
-        <section className="container py-12 border-t border-white/5">
-          <h2 className="text-white/60 text-sm font-bold uppercase tracking-widest mb-6">
-            Projets Connexes
-          </h2>
-          <div className="flex flex-wrap gap-4">
-            {projects.slice(0, 8).map((project) => (
-              <a 
-                key={project.id}
-                href={`/projects/${getSeoSlug(project)}`}
-                className="text-white/60 text-xs md:text-sm hover:text-accent-text transition-colors px-4 py-2 border border-white/10 rounded-full hover:border-gradus-gold/30 bg-white/5"
-              >
-                {project.client} — {project.category}
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+      <ServiceClient
+        slug={slug}
+        serviceData={serviceData}
+        projects={projects}
+        // SEO internal linking: related projects, rendered above the footer
+        related={
+          projects && projects.length > 0 && (
+            <section className="container py-12 border-t border-gradus-border">
+              <h2 className="label-utility mb-6">
+                Projets Connexes
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {projects.slice(0, 8).map((project) => (
+                  <a
+                    key={project.id}
+                    href={`/projects/${getSeoSlug(project)}`}
+                    className="label-utility text-text-secondary hover:text-text-primary hover:border-accent/40 transition-colors px-3 py-1 border border-gradus-border"
+                  >
+                    {project.client} — {project.category}
+                  </a>
+                ))}
+              </div>
+            </section>
+          )
+        }
+      />
     </main>
   );
 }

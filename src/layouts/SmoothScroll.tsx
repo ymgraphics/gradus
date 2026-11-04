@@ -5,10 +5,8 @@ import Lenis from "lenis";
 import dynamic from "next/dynamic";
 import { MotionConfig } from "framer-motion";
 import { registerLenis, prefersReducedMotion } from "@/lib/scroll-lock";
+import FluidBackground from "@/components/FluidBackground";
 
-const FluidBackground = dynamic(() => import("@/components/FluidBackground"), {
-  ssr: false,
-});
 
 const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"), {
   ssr: false,

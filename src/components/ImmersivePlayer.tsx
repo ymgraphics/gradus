@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, X, Maximize2, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, X, Maximize2, Volume2, VolumeX } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { useDialog } from "@/lib/useDialog";
 
 interface ImmersivePlayerProps {
   videoUrl: string;
@@ -12,13 +14,24 @@ interface ImmersivePlayerProps {
   aspect?: "portrait" | "landscape" | "square";
 }
 
+const controlBtn =
+  "w-10 h-10 flex items-center justify-center text-text-primary hover:text-accent-text transition-colors focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2";
+
 export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect = "landscape" }: ImmersivePlayerProps) {
+  const { lang } = useLanguage();
+  const fr = lang === "fr";
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const close = useCallback(() => setIsOpen(false), []);
+
+  // Escape, focus trap + restore, scroll lock (incl. Lenis)
+  useDialog({ open: isOpen, containerRef: dialogRef, onClose: close, initialFocusRef: closeRef });
 
   // Lazy play preview video only when visible in the viewport to save bandwidth and GPU execution cycles
   useEffect(() => {
@@ -45,14 +58,10 @@ export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect =
   }, []);
 
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
   };
 
   const handleTimeUpdate = () => {
@@ -69,140 +78,151 @@ export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect =
     }
   };
 
-  // Close on Escape
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+  const goFullscreen = () => {
+    videoRef.current?.requestFullscreen?.().catch(() => {});
+  };
+
+  const aspectClass =
+    aspect === "portrait" ? "aspect-[9/16]" : aspect === "square" ? "aspect-square" : "aspect-video";
 
   return (
     <>
       {/* Trigger / Thumbnail */}
-      <div 
+      <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className={`relative ${aspect === 'portrait' ? 'aspect-[9/16]' : aspect === 'square' ? 'aspect-square' : 'aspect-video'} rounded-[32px] overflow-hidden cursor-pointer group bg-black/20`}
+        aria-label={fr ? `Regarder la vidéo du projet ${clientName}` : `Watch the ${clientName} project video`}
+        className="group block w-full text-left border border-gradus-border p-1.5 hover:border-accent/40 transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
       >
-        <video 
-          ref={previewVideoRef}
-          src={videoUrl}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
-        />
-        
-        {/* Poster Image Overlay if provided */}
-        {poster && (
-          <Image
-            src={poster}
-            alt={clientName}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="absolute inset-0 object-cover opacity-0 group-hover:opacity-0 transition-opacity"
+        <span className={`relative block ${aspectClass} overflow-hidden bg-surface`}>
+          <video
+            ref={previewVideoRef}
+            src={videoUrl}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
-        )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-        
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500 shadow-2xl"
-          >
-            <Play size={32} className="text-white group-hover:text-gradus-primary fill-current translate-x-1" />
-          </motion.div>
-        </div>
+          {/* Poster Image Overlay if provided */}
+          {poster && (
+            <Image
+              src={poster}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="absolute inset-0 object-cover opacity-0"
+            />
+          )}
 
-        <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-           <span className="text-white font-mono text-[11px] tracking-[0.3em] uppercase bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-             Cliquer pour regarder
-           </span>
-        </div>
-      </div>
+          <span className="absolute inset-0 flex items-center justify-center">
+            <span className="w-16 h-16 md:w-20 md:h-20 border border-white/30 bg-void/40 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-colors duration-300">
+              <Play className="text-text-primary fill-current w-6 h-6 md:w-8 md:h-8" aria-hidden="true" />
+            </span>
+          </span>
+        </span>
+        <span className="label-utility mt-3 flex items-center justify-between">
+          <span>▸ {fr ? "Cliquer pour regarder" : "Click to watch"}</span>
+          <span>{clientName}</span>
+        </span>
+      </button>
 
-      {/* Cinematic Modal */}
+      {/* Modal */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={fr ? `Vidéo du projet ${clientName}` : `${clientName} project video`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12"
           >
-            {/* Liquid Glass Backdrop */}
-            <motion.div 
-              initial={{ backdropFilter: "blur(0px)" }}
-              animate={{ backdropFilter: "blur(40px)" }}
-              exit={{ backdropFilter: "blur(0px)" }}
-              onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-black/80"
-            />
+            <div onClick={close} className="absolute inset-0 bg-void/95" aria-hidden="true" />
 
-            {/* Video Container */}
             <motion.div
-              layoutId={`video-${videoUrl}`}
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className={`relative w-full ${aspect === 'portrait' ? 'max-w-[450px] aspect-[9/16]' : 'max-w-7xl aspect-video'} rounded-[40px] overflow-hidden shadow-[0_0_100px_rgba(96,80,220,0.15)] border border-white/10 bg-black`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className={`relative w-full ${aspect === "portrait" ? "max-w-[450px]" : "max-w-7xl"} flex flex-col gap-3`}
             >
-              <video
-                ref={videoRef}
-                src={videoUrl}
-                autoPlay
-                muted={isMuted}
-                onTimeUpdate={handleTimeUpdate}
-                onClick={togglePlay}
-                className="w-full h-full object-contain cursor-pointer"
-              />
-
-              {/* Floating Header */}
-              <div className="absolute top-0 left-0 right-0 p-8 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
-                <div className="flex flex-col">
-                  <span className="text-accent-text font-mono text-[11px] tracking-[0.3em] uppercase mb-1">Project Video</span>
-                  <h3 className="text-white text-xl font-heading font-bold">{clientName}</h3>
+              {/* Header */}
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="label-utility mb-2 flex items-center gap-3">
+                    <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+                    {fr ? "Vidéo du projet" : "Project Video"}
+                  </p>
+                  <h3 className="text-heading font-display text-text-primary">{clientName}</h3>
                 </div>
-                <button 
-                  onClick={() => setIsOpen(false)}
-                  className="pointer-events-auto w-12 h-12 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white/10 hover:scale-110 transition-all duration-300"
+                <button
+                  ref={closeRef}
+                  type="button"
+                  onClick={close}
+                  aria-label={fr ? "Fermer la vidéo" : "Close video"}
+                  className={`${controlBtn} border border-gradus-border hover:border-accent/40`}
                 >
-                  <X size={24} />
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
 
-              {/* Floating Control Deck */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl px-8 flex flex-col gap-4">
-                {/* Progress Bar */}
-                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden backdrop-blur-md cursor-pointer group/progress">
-                   <motion.div 
-                     className="h-full bg-accent shadow-[0_0_15px_rgba(96,80,220,0.5)]"
-                     style={{ width: `${progress}%` }}
-                   />
-                </div>
+              <div className={`relative w-full ${aspect === "portrait" ? "aspect-[9/16]" : "aspect-video"} border border-gradus-border p-1.5 bg-void`}>
+                <video
+                  ref={videoRef}
+                  src={videoUrl}
+                  autoPlay
+                  muted={isMuted}
+                  onTimeUpdate={handleTimeUpdate}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                  onClick={togglePlay}
+                  className="w-full h-full object-contain cursor-pointer bg-black"
+                />
 
-                <div className="flex items-center justify-between px-4 py-3 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl">
-                  <div className="flex items-center gap-6">
-                    <button onClick={togglePlay} className="text-white hover:text-accent transition-colors">
-                      {isPlaying ? <Play className="fill-current" /> : <Play />}
-                    </button>
-                    <button onClick={toggleMute} className="text-white hover:text-accent transition-colors">
-                      {isMuted ? <VolumeX /> : <Volume2 />}
-                    </button>
+                {/* Control bar */}
+                <div className="absolute bottom-1.5 left-1.5 right-1.5 bg-void/70">
+                  <div className="h-px w-full bg-gradus-border" aria-hidden="true">
+                    <div className="h-px bg-accent" style={{ width: `${progress}%` }} />
                   </div>
+                  <div className="flex items-center justify-between px-2 py-1">
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={togglePlay}
+                        aria-label={isPlaying ? (fr ? "Pause" : "Pause") : (fr ? "Lecture" : "Play")}
+                        className={controlBtn}
+                      >
+                        {isPlaying ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={toggleMute}
+                        aria-label={isMuted ? (fr ? "Activer le son" : "Unmute") : (fr ? "Couper le son" : "Mute")}
+                        aria-pressed={!isMuted}
+                        className={controlBtn}
+                      >
+                        {isMuted ? <VolumeX size={18} aria-hidden="true" /> : <Volume2 size={18} aria-hidden="true" />}
+                      </button>
+                    </div>
 
-                  <div className="flex items-center gap-6">
-                    <span className="text-white/60 font-mono text-[11px] tracking-widest hidden sm:block">
-                      {isPlaying ? "PLAYING CINEMATIC" : "PAUSED"}
-                    </span>
-                    <button className="text-white hover:text-accent transition-colors">
-                      <Maximize2 size={20} />
-                    </button>
+                    <div className="flex items-center gap-4">
+                      <span className="label-utility hidden sm:block" aria-live="polite">
+                        {isPlaying ? (fr ? "Lecture" : "Playing") : (fr ? "En pause" : "Paused")}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={goFullscreen}
+                        aria-label={fr ? "Plein écran" : "Fullscreen"}
+                        className={controlBtn}
+                      >
+                        <Maximize2 size={18} aria-hidden="true" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

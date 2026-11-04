@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { HelpCircle, ChevronDown, Sparkles, MessageCircle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Navbar from "@/layouts/Navbar";
 import Footer from "@/layouts/Footer";
 import Link from "next/link";
@@ -44,51 +44,46 @@ export default function FaqClient({ projects, faqItems }: FaqClientProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white selection:bg-gradus-gold selection:text-black font-body">
+    <div className="min-h-screen bg-void text-text-primary font-body">
       <Navbar />
 
       {/* Hero Header */}
-      <section className="relative pt-36 pb-20 md:py-48 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-gradus-gold/5 blur-[150px] rounded-full" />
-          <div className="absolute bottom-[20%] left-[-10%] w-[40%] h-[40%] bg-white/[0.02] blur-[120px] rounded-full" />
-        </div>
-
-        <div className="container relative z-10 max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
-              <HelpCircle size={12} className="text-gradus-gold" />
-              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
-                FAQ & Aide
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-normal text-white">
-              Vos Questions. <br />Nos <span className="text-gradus-gold">Réponses.</span>
-            </h1>
-            <p className="mt-10 text-lg md:text-2xl text-white/50 leading-relaxed font-light font-body max-w-3xl">
-              Transparence totale. Nous répondons ici aux questions fréquemment posées sur nos processus créatifs, nos budgets, et nos méthodes d'accompagnement.
-            </p>
-          </div>
+      <section className="relative pt-40 pb-20 md:pt-48 md:pb-28">
+        <div className="container">
+          <p className="label-utility mb-10 flex items-center gap-3">
+            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+            FAQ & Aide
+          </p>
+          <h1 className="text-display-xl font-display text-text-primary flex flex-col">
+            <span>Vos Questions.</span>
+            <span className="ml-[4%] md:ml-[8.333%]">
+              Nos <span className="text-accent">Réponses.</span>
+            </span>
+          </h1>
+          <p className="mt-12 md:ml-[16.666%] text-body text-text-secondary max-w-2xl">
+            Transparence totale. Nous répondons ici aux questions fréquemment posées sur nos processus créatifs, nos budgets, et nos méthodes d&apos;accompagnement.
+          </p>
         </div>
       </section>
 
       {/* Accordion list */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#080808] to-[#0b0b0b]">
-        <div className="container max-w-5xl px-6 mx-auto">
-          
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-3 justify-start mb-16">
+          <div className="flex flex-wrap gap-x-8 gap-y-4 mb-16 pb-6 border-b border-gradus-border">
             {categories.map((cat) => (
               <button
                 key={cat.id}
+                type="button"
+                aria-pressed={activeCategory === cat.id}
                 onClick={() => {
-                  setActiveCategory(cat.id as any);
+                  setActiveCategory(cat.id as typeof activeCategory);
                   setExpandedId(null);
                 }}
-                className={`px-6 py-3 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
+                className={`label-utility transition-colors duration-300 ${
                   activeCategory === cat.id
-                    ? "bg-gradus-gold text-gradus-primary font-bold shadow-[0_0_20px_rgba(96,80,220,0.2)]"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white"
+                    ? "text-accent-text"
+                    : "text-text-secondary hover:text-text-primary"
                 }`}
               >
                 {cat.label[lang]}
@@ -96,44 +91,55 @@ export default function FaqClient({ projects, faqItems }: FaqClientProps) {
             ))}
           </div>
 
-          {/* Accordion container */}
-          <div className="space-y-4">
+          {/* Accordion: hairline rows */}
+          <div className="max-w-5xl">
             <AnimatePresence initial={false}>
-              {filteredFaq.map((faq) => {
+              {filteredFaq.map((faq, i) => {
                 const isExpanded = expandedId === faq.id;
+                const panelId = `faq-panel-${faq.id}`;
+                const buttonId = `faq-button-${faq.id}`;
                 return (
                   <motion.div
                     key={faq.id}
                     layout
-                    className="liquid-glass border border-white/5 rounded-[24px] overflow-hidden hover:border-white/15 transition-all duration-500 text-left"
+                    className="border-t border-gradus-border last:border-b text-left"
                   >
-                    <button
-                      onClick={() => toggleExpand(faq.id)}
-                      className="w-full p-8 flex items-center justify-between gap-6 text-left group"
-                    >
-                      <h3 className={`text-lg md:text-xl font-heading font-bold transition-colors duration-300 ${
-                        isExpanded ? "text-accent-text" : "text-white group-hover:text-accent-text"
-                      }`}>
-                        {faq.question[lang]}
-                      </h3>
-                      <div className={`w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 group-hover:text-white transition-all duration-300 shrink-0 ${
-                        isExpanded ? "rotate-180 bg-gradus-gold text-gradus-primary" : ""
-                      }`}>
-                        <ChevronDown size={16} />
-                      </div>
-                    </button>
+                    <h2>
+                      <button
+                        id={buttonId}
+                        type="button"
+                        onClick={() => toggleExpand(faq.id)}
+                        aria-expanded={isExpanded}
+                        aria-controls={panelId}
+                        className="w-full py-7 md:py-8 grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[4rem_1fr_auto] items-baseline gap-4 md:gap-8 text-left group"
+                      >
+                        <span className={`label-utility transition-colors duration-300 ${isExpanded ? "text-accent-text" : "text-text-secondary group-hover:text-accent-text"}`}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-heading font-display text-text-primary">
+                          {faq.question[lang]}
+                        </span>
+                        <span className="label-utility text-text-secondary group-hover:text-text-primary text-base leading-none self-center" aria-hidden="true">
+                          {isExpanded ? "−" : "+"}
+                        </span>
+                      </button>
+                    </h2>
 
                     <AnimatePresence initial={false}>
                       {isExpanded && (
                         <motion.div
+                          id={panelId}
+                          role="region"
+                          aria-labelledby={buttonId}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
                         >
-                          <div className="px-8 pb-8 pt-2 text-white/50 text-sm md:text-base leading-relaxed font-body border-t border-white/5">
+                          <p className="pb-8 pl-[calc(2.5rem+1rem)] md:pl-[calc(4rem+2rem)] pr-8 text-body text-text-secondary max-w-3xl">
                             {faq.answer[lang]}
-                          </div>
+                          </p>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -145,23 +151,22 @@ export default function FaqClient({ projects, faqItems }: FaqClientProps) {
         </div>
       </section>
 
-      {/* CTA Box */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#0b0b0b] to-[#080808] relative overflow-hidden">
-        <div className="container max-w-5xl px-6 text-center relative z-10 mx-auto">
-          <div className="liquid-glass p-12 md:p-20 rounded-[48px] border border-white/5 flex flex-col items-center shadow-3xl">
-            <MessageCircle size={40} className="text-gradus-gold mb-8 animate-pulse" />
-            <h2 className="text-3xl md:text-5xl font-display font-black leading-tight mb-8">
-              Une autre question en tête ?
-            </h2>
-            <p className="text-white/50 text-base md:text-lg max-w-2xl leading-relaxed mb-12 font-light">
-              N'hésitez pas à nous envoyer un message direct. Notre équipe est super réactive et vous répondra en moins de 24 heures.
+      {/* CTA */}
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
+          <h2 className="text-display-lg font-display text-text-primary mb-10">
+            Une autre question en tête ?
+          </h2>
+          <div className="md:ml-[16.666%] flex flex-col items-start gap-10">
+            <p className="text-body text-text-secondary max-w-2xl">
+              N&apos;hésitez pas à nous envoyer un message direct. Notre équipe est super réactive et vous répondra en moins de 24 heures.
             </p>
             <Link
               href="/contact"
-              className="px-12 py-6 rounded-full bg-gradus-gold text-gradus-primary font-bold text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(96,80,220,0.3)] transition-all duration-500 flex items-center gap-3"
+              className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-text-primary transition-colors duration-300"
             >
               Envoyer un message
-              <ArrowRight size={18} />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </Link>
           </div>
         </div>

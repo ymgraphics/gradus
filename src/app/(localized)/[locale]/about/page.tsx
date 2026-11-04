@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getRestTeamMembers, getRestProjects } from "@/lib/firebase-rest";
 import { defaultProjects, SITE_URL } from "@/lib/constants";
-import { Sparkles, Heart, Zap, Award, CheckCircle2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -78,8 +78,27 @@ export default async function AboutPage() {
     ]
   };
 
+  const values = [
+    {
+      title: "Audace Créative",
+      desc: "Concevoir des identités visuelles d'exception. Nous élaborons des directions artistiques novatrices conçues spécifiquement pour dominer votre secteur d'activité.",
+    },
+    {
+      title: "Précision Analytique",
+      desc: "Fonder chaque décision marketing sur des données tangibles. Nous structurons des stratégies d'acquisition digitale optimisées pour maximiser votre retour sur investissement.",
+    },
+    {
+      title: "Partenariat Stratégique",
+      desc: "Opérer comme une extension directe de votre entreprise. Nous intégrons vos objectifs commerciaux globaux pour garantir une croissance pérenne et mesurable.",
+    },
+    {
+      title: "Exigence Opérationnelle",
+      desc: "Garantir une exécution irréprochable des projets. Nous maintenons un standard d'excellence absolu sur la production audiovisuelle et le développement technologique.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#080808] text-white selection:bg-gradus-gold selection:text-black font-body">
+    <div className="min-h-screen bg-void text-text-primary font-body">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
@@ -87,154 +106,116 @@ export default async function AboutPage() {
       <Navbar />
 
       {/* Hero Narrative */}
-      <section className="relative pt-36 pb-20 md:py-48 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-gradus-gold/5 blur-[150px] rounded-full" />
-          <div className="absolute bottom-[10%] left-[-15%] w-[45%] h-[45%] bg-white/[0.01] blur-[120px] rounded-full" />
-        </div>
-
-        <div className="container relative z-10 max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
-              <Sparkles size={12} className="text-gradus-gold" />
-              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
-                L'Agence Créative
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-normal text-white">
-              L'excellence visuelle et digitale à <span className="text-gradus-gold">Casablanca</span>.
-            </h1>
-            <p className="mt-10 text-lg md:text-2xl text-white/50 leading-relaxed font-light font-body max-w-3xl">
-              Gradus Agency s'impose comme un partenaire stratégique de premier plan. Nous regroupons une élite de directeurs artistiques, de stratèges digitaux et de producteurs audiovisuels dédiés à l'ascension de votre marque sur le marché marocain et international.
-            </p>
-          </div>
+      <section className="relative pt-40 pb-20 md:pt-48 md:pb-28">
+        <div className="container">
+          <p className="label-utility mb-10 flex items-center gap-3">
+            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+            L&apos;Agence Créative
+          </p>
+          <h1 className="text-display-xl font-display text-text-primary max-w-6xl">
+            L&apos;excellence visuelle et digitale à <span className="text-accent">Casablanca</span>.
+          </h1>
+          <p className="mt-12 md:ml-[16.666%] text-body text-text-secondary max-w-2xl">
+            Gradus Agency s&apos;impose comme un partenaire stratégique de premier plan. Nous regroupons une élite de directeurs artistiques, de stratèges digitaux et de producteurs audiovisuels dédiés à l&apos;ascension de votre marque sur le marché marocain et international.
+          </p>
         </div>
       </section>
 
       {/* Core values */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#080808] to-[#0b0b0b]">
-        <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-            <div className="lg:col-span-4">
-              <h2 className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold mb-6">
-                Nos Principes Fondamentaux
-              </h2>
-              <h3 className="text-3xl md:text-5xl font-display font-bold leading-tight">
-                L'infrastructure de notre réussite.
-              </h3>
-            </div>
-            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="liquid-glass p-8 rounded-3xl border border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-gradus-gold/10 flex items-center justify-center text-gradus-gold mb-6">
-                  <Zap size={18} />
-                </div>
-                <h4 className="text-xl font-heading font-bold mb-3">Audace Créative</h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Concevoir des identités visuelles d'exception. Nous élaborons des directions artistiques novatrices conçues spécifiquement pour dominer votre secteur d'activité.
-                </p>
-              </div>
-
-              <div className="liquid-glass p-8 rounded-3xl border border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-gradus-gold/10 flex items-center justify-center text-gradus-gold mb-6">
-                  <Award size={18} />
-                </div>
-                <h4 className="text-xl font-heading font-bold mb-3">Précision Analytique</h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Fonder chaque décision marketing sur des données tangibles. Nous structurons des stratégies d'acquisition digitale optimisées pour maximiser votre retour sur investissement.
-                </p>
-              </div>
-
-              <div className="liquid-glass p-8 rounded-3xl border border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-gradus-gold/10 flex items-center justify-center text-gradus-gold mb-6">
-                  <Heart size={18} />
-                </div>
-                <h4 className="text-xl font-heading font-bold mb-3">Partenariat Stratégique</h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Opérer comme une extension directe de votre entreprise. Nous intégrons vos objectifs commerciaux globaux pour garantir une croissance pérenne et mesurable.
-                </p>
-              </div>
-
-              <div className="liquid-glass p-8 rounded-3xl border border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-gradus-gold/10 flex items-center justify-center text-gradus-gold mb-6">
-                  <CheckCircle2 size={18} />
-                </div>
-                <h4 className="text-xl font-heading font-bold mb-3">Exigence Opérationnelle</h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Garantir une exécution irréprochable des projets. Nous maintenons un standard d'excellence absolu sur la production audiovisuelle et le développement technologique.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Corporate Team Grid */}
-      <section className="py-24 border-t border-white/5 bg-[#0b0b0b]">
-        <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
-          <div className="flex items-center gap-4 mb-16">
-            <span className="w-12 h-[1px] bg-gradus-gold/30" />
-            <h2 className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold">
-              Le Conseil Exécutif
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
+          <div className="mb-16 md:mb-24">
+            <h2 className="label-utility mb-6 flex items-center gap-3">
+              <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+              Nos Principes Fondamentaux
             </h2>
+            <p className="text-display-lg font-display text-text-primary">
+              L&apos;infrastructure de notre réussite.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member: any) => (
-              <div key={member.id} className="liquid-glass border border-white/5 rounded-3xl overflow-hidden group">
-                <div className="relative aspect-[4/5] bg-white/[0.02]">
-                  {member.imageUrl ? (
-                    <Image
-                      src={member.imageUrl}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/10 font-black text-6xl">
-                      G
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                  
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h4 className="text-lg font-heading font-bold text-white mb-1">
-                      {member.name}
-                    </h4>
-                    <p className="text-accent-text text-[11px] font-mono uppercase tracking-widest mb-3">
-                      {member.role}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 opacity-60">
-                      {(member.tags || []).slice(0, 2).map((tag: string) => (
-                        <span key={tag} className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/10 text-white border border-white/5">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+          {/* Four principles, each one a step lower than the last */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+            {values.map((value, i) => (
+              <div
+                key={value.title}
+                style={{ "--i": i } as React.CSSProperties}
+                className="group flex flex-col items-start border-t border-gradus-border pt-8 lg:mt-[calc(var(--i)*3rem)]"
+              >
+                <span className="label-utility text-text-secondary group-hover:text-accent-text transition-colors duration-300 mb-8">
+                  0{i + 1}
+                </span>
+                <h3 className="text-heading font-display text-text-primary mb-4">{value.title}</h3>
+                <p className="text-caption text-text-secondary">{value.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Box */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#0b0b0b] to-[#080808] relative overflow-hidden">
-        <div className="container max-w-5xl px-6 text-center relative z-10 mx-auto">
-          <div className="liquid-glass p-12 md:p-20 rounded-[48px] border border-white/5 flex flex-col items-center shadow-3xl">
-            <h2 className="text-3xl md:text-5xl font-display font-black leading-tight mb-8">
-              Confiez votre croissance digitale à notre agence.
-            </h2>
-            <p className="text-white/50 text-base md:text-lg max-w-2xl leading-relaxed mb-12 font-light">
-              Du développement d'une identité visuelle prestigieuse à la conception de plateformes web performantes, notre équipe dirigeante orchestre votre ascension sur le marché.
+      {/* Corporate Team Grid */}
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
+          <h2 className="label-utility mb-16 md:mb-24 flex items-center gap-3">
+            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+            Le Conseil Exécutif
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+            {team.map((member: any, i: number) => (
+              <div
+                key={member.id}
+                style={{ "--i": i % 4 } as React.CSSProperties}
+                className="group lg:mt-[calc(var(--i)*2rem)]"
+              >
+                <div className="relative aspect-[4/5] border border-gradus-border bg-surface overflow-hidden">
+                  {member.imageUrl ? (
+                    <Image
+                      src={member.imageUrl}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-display-md font-display text-text-primary/20" aria-hidden="true">
+                      G
+                    </div>
+                  )}
+                </div>
+                <h3 className="mt-4 text-heading font-display text-text-primary">
+                  {member.name}
+                </h3>
+                <p className="label-utility text-accent-text mt-2">
+                  {member.role}
+                </p>
+                {(member.tags || []).length > 0 && (
+                  <p className="label-utility text-text-secondary mt-2">
+                    {(member.tags || []).slice(0, 2).join(" · ")}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-y border-t border-gradus-border">
+        <div className="container">
+          <h2 className="text-display-lg font-display text-text-primary max-w-5xl mb-10">
+            Confiez votre croissance digitale à notre agence.
+          </h2>
+          <div className="md:ml-[16.666%] flex flex-col items-start gap-10">
+            <p className="text-body text-text-secondary max-w-2xl">
+              Du développement d&apos;une identité visuelle prestigieuse à la conception de plateformes web performantes, notre équipe dirigeante orchestre votre ascension sur le marché.
             </p>
             <Link
               href="/contact"
-              className="px-12 py-6 rounded-full bg-gradus-gold text-gradus-primary font-bold text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(96,80,220,0.3)] transition-all duration-500 flex items-center gap-3"
+              className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-text-primary transition-colors duration-300"
             >
               Initier une Collaboration
-              <ArrowRight size={18} />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </Link>
           </div>
         </div>

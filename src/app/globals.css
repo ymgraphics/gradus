@@ -104,13 +104,6 @@
     outline-offset: 3px;
   }
 
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
 }
 
 @layer components {
@@ -145,31 +138,12 @@
     left: 150%;
   }
 
-  .text-glass {
-    background: linear-gradient(150deg, #fff 25%, rgba(255, 255, 255, 0.62) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 
   /* Unified vertical rhythm for page sections */
   .section-y {
     @apply py-24 md:py-36;
   }
 
-  /* Shared card treatment: hairline border, stepped lift on hover */
-  .card-lift {
-    @apply border border-white/8 rounded-2xl;
-    transition: transform 0.25s steps(2, jump-end), border-color 0.4s ease, box-shadow 0.4s ease;
-  }
-
-  .card-lift:hover {
-    @apply border-accent/40;
-    transform: translateY(-8px);
-    box-shadow:
-      0 20px 40px -16px rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(96, 80, 220, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  }
 
   /* ── THE SETBACK primitives ─────────────────────────────── */
 
@@ -238,24 +212,6 @@
   }
 }
 
-@keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
-}
-
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
 
 /* Respect the OS reduced-motion setting for decorative, looping motion.
    Loading spinners (.animate-spin) are kept: they convey state. */
@@ -263,7 +219,6 @@
   .animate-pulse,
   .animate-bounce,
   .animate-ping,
-  .animate-blob,
   .glass-refraction::before {
     animation: none !important;
     transition: none !important;

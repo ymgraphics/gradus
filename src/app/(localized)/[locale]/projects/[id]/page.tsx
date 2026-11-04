@@ -1,8 +1,8 @@
+import { notFound } from "next/navigation";
 import { getRestProjects } from "@/lib/firebase-rest";
 import { defaultProjects as fallbackProjects, SITE_URL } from "@/lib/constants";
 import Navbar from "@/layouts/Navbar";
 import Footer from "@/layouts/Footer";
-import Link from "next/link";
 import { Metadata } from "next";
 import ProjectClient from "./ProjectClient";
 
@@ -111,12 +111,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
   let project = null;
   let allProjects = [];
-  let debugId = "";
   const baseUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
 
   try {
     const { id } = await params;
-    debugId = id;
     const decodedId = decodeURIComponent(id).toLowerCase();
     
     // Fetch dynamic project page content
@@ -136,15 +134,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   }
 
   if (!project) {
-    return (
-      <main className="min-h-screen bg-gradus-primary text-white flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="text-4xl font-bold mb-4 font-display">Project Not Found</h1>
-        <p className="text-white/50 mb-8 font-mono">ID: {debugId}</p>
-        <Link href="/#portfolio" className="text-gradus-orange hover:underline font-medium">
-          Back to Portfolio
-        </Link>
-      </main>
-    );
+    notFound();
   }
 
   // Schema.org CaseStudy/CreativeWork & BreadcrumbList JSON-LD

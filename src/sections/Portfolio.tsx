@@ -171,7 +171,7 @@ export default function Portfolio({ projects: projectsProp }: PortfolioProps = {
                       <h3 className="text-heading font-display text-text-primary">
                         {project.client}
                       </h3>
-                      <span className="label-utility text-text-secondary whitespace-nowrap">
+                      <span className="label-utility text-text-secondary text-right">
                         {project.category} — {project.year}
                       </span>
                     </div>

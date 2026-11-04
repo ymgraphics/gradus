@@ -1,23 +1,17 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { 
-  MessageSquare, 
-  Calendar, 
-  Phone, 
-  Mail, 
-  Send, 
-  X, 
-  Clock, 
-  Sparkles, 
-  CheckCircle,
-  MapPin,
-  ExternalLink,
-  ChevronRight
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, MessageSquare, X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useDialog } from "@/lib/useDialog";
 import { sendLeadAction } from "@/app/actions/sendEmail";
+
+// Booking link for the "schedule a call" row. The row is hidden until a real
+// scheduling page is configured (it previously pointed at calendly.com itself).
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
+
+const WHATSAPP_URL =
+  "https://wa.me/212691404005?text=Bonjour%20Gradus%2C%20je%20souhaite%20discuter%20d%27un%20projet%20de%20branding%20%2F%20marketing%20digital%20avec%20vous.";
 
 export default function ConversionHub() {
   const { lang } = useLanguage();
@@ -110,221 +104,175 @@ export default function ConversionHub() {
     { id: "web-design", labelFr: "Web Design", labelEn: "Web Design" },
   ];
 
+  const fr = lang === "fr";
+
+  const channels = [
+    {
+      href: WHATSAPP_URL,
+      external: true,
+      title: "WhatsApp",
+      note: fr ? "Consultation immédiate (24/7)" : "Immediate consultation (24/7)",
+    },
+    ...(CALENDLY_URL
+      ? [{
+          href: CALENDLY_URL,
+          external: true,
+          title: fr ? "Réserver un appel" : "Schedule a call",
+          note: fr ? "Appel stratégique 15 min" : "15-min discovery call",
+        }]
+      : []),
+    { href: "tel:+212691404005", external: false, title: fr ? "Appeler" : "Call", note: "+212 691 404 005" },
+    { href: "mailto:contact@gradus.ma", external: false, title: fr ? "Écrire" : "Email", note: "contact@gradus.ma" },
+  ];
+
+  const inputClass =
+    "w-full bg-transparent border-0 border-b border-gradus-border px-0 py-3 text-caption text-text-primary placeholder:text-white/50 focus:border-accent transition-colors";
+
   return (
     <>
-      {/* 1. Sticky Scrolling CTA Pill (Slides in bottom-left corner) */}
+      {/* 1. Sticky CTA (bottom-left, appears after the hero) */}
       <div
         inert={!(showStickyCta && !isOpen)}
-        className={`fixed bottom-6 left-6 z-40 transition-all duration-500 transform hidden sm:block ${
-          showStickyCta && !isOpen 
-            ? "translate-y-0 opacity-100 scale-100" 
-            : "translate-y-10 opacity-0 scale-90 pointer-events-none"
+        className={`fixed bottom-6 left-6 z-40 transition-[opacity,transform] duration-500 hidden sm:block ${
+          showStickyCta && !isOpen
+            ? "translate-y-0 opacity-100"
+            : "translate-y-4 opacity-0 pointer-events-none"
         }`}
       >
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-3 bg-gradus-primary/90 hover:bg-black/90 backdrop-blur-xl border border-white/10 hover:border-accent/30 text-white pl-4 pr-5 py-3 rounded-full transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group"
+          className="group inline-flex items-center gap-4 bg-void border border-gradus-border hover:border-accent px-6 py-4 label-utility text-text-primary transition-colors duration-300"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-          <span className="text-sm font-heading font-medium tracking-normal">
-            {lang === "fr" ? "⚡️ Obtenir Une Estimation Détaillée" : "⚡️ Get Detailed Estimate"}
-          </span>
-          <ChevronRight size={16} className="text-accent group-hover:translate-x-1 transition-transform duration-300" />
+          <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+          {fr ? "Obtenir une estimation" : "Get an estimate"}
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
         </button>
       </div>
 
-      {/* 2. Floating Action Button (FAB - Bottom Right) */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-        {/* Pulsing notification badge if closed */}
-        {!isOpen && (
-          <div className="bg-accent text-white text-[11px] font-heading font-bold px-2 py-0.5 rounded-full animate-bounce shadow-md pointer-events-none">
-            {lang === "fr" ? "En ligne · Online" : "Online"}
-          </div>
-        )}
-        
-        <button
-          id="conversion-fab"
-          aria-label={
-            isOpen
-              ? lang === "fr" ? "Fermer le panneau de contact" : "Close contact panel"
-              : lang === "fr" ? "Ouvrir le panneau de contact" : "Open contact panel"
-          }
-          aria-expanded={isOpen}
-          aria-controls="conversion-hub"
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border ${
-            isOpen 
-              ? "bg-black/80 border-white/20 text-white rotate-90" 
-              : "bg-gradient-to-tr from-accent to-gradus-orange border-white/10 hover:border-white/30 text-black hover:scale-105"
-          }`}
-        >
-          {isOpen ? (
-            <X size={24} />
-          ) : (
-            <div className="relative">
-              <MessageSquare size={24} className="animate-pulse" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-white border border-accent" />
-            </div>
-          )}
-        </button>
-      </div>
+      {/* 2. Panel toggle (bottom-right) */}
+      <button
+        id="conversion-fab"
+        aria-label={
+          isOpen
+            ? fr ? "Fermer le panneau de contact" : "Close contact panel"
+            : fr ? "Ouvrir le panneau de contact" : "Open contact panel"
+        }
+        aria-expanded={isOpen}
+        aria-controls="conversion-hub"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center border transition-colors duration-300 ${
+          isOpen
+            ? "bg-void border-gradus-border text-text-primary hover:border-accent"
+            : "bg-accent border-accent text-white hover:bg-void"
+        }`}
+      >
+        {isOpen ? <X size={20} aria-hidden="true" /> : <MessageSquare size={20} aria-hidden="true" />}
+      </button>
 
-      {/* 3. Immersive Glassmorphic Conversion Hub Drawer */}
+      {/* 3. Contact panel */}
       <div
         ref={drawerRef}
         id="conversion-hub"
         role="dialog"
         aria-modal="false"
-        aria-label={lang === "fr" ? "Contacter Gradus" : "Contact Gradus"}
+        aria-labelledby="conversion-hub-title"
         inert={!isOpen}
-        className={`fixed right-6 bottom-24 z-50 w-[92vw] sm:w-[400px] max-h-[80vh] overflow-y-auto rounded-[28px] bg-gradus-primary/95 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-500 origin-bottom-right transform ${
-          isOpen 
-            ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" 
-            : "scale-90 opacity-0 translate-y-10 pointer-events-none"
+        className={`fixed right-6 bottom-24 z-50 w-[calc(100vw-3rem)] sm:w-[400px] max-h-[calc(100vh-8rem)] overflow-y-auto bg-void border border-gradus-border transition-[opacity,transform] duration-300 ${
+          isOpen
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 translate-y-4 pointer-events-none"
         }`}
       >
-        {/* Hub Header */}
-        <div className="p-6 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent relative">
-          <div className="absolute top-6 right-6 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-[11px] font-heading font-semibold tracking-wider uppercase">Active</span>
-          </div>
-
-          <h3 className="text-xl font-heading font-extrabold text-white flex items-center gap-2">
-            Gradus Studio <Sparkles size={16} className="text-accent" />
-          </h3>
-          <p className="text-xs text-gradus-muted mt-1 flex items-center gap-1">
-            <Clock size={12} /> {lang === "fr" ? "Assistance stratégique instantanée sur WhatsApp" : "Instant strategic support on WhatsApp"}
+        <div className="p-6 border-b border-gradus-border">
+          <p className="label-utility mb-4 flex items-center gap-3">
+            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+            {fr ? "Contact direct" : "Direct contact"}
+          </p>
+          <h2 id="conversion-hub-title" className="text-heading font-display text-text-primary">
+            Gradus Studio
+          </h2>
+          <p className="text-caption text-text-secondary mt-2">
+            {fr ? "Assistance stratégique instantanée sur WhatsApp" : "Instant strategic support on WhatsApp"}
           </p>
         </div>
 
-        {/* Channels Grid (Instant Contact Options) */}
-        <div className="p-6 flex flex-col gap-4">
-          
-          {/* A. Live WhatsApp Chat Shortcut */}
-          <a
-            href="https://wa.me/212691404005?text=Bonjour%20Gradus%2C%20je%20souhaite%20discuter%20d%27un%20projet%20de%20branding%20%2F%20marketing%20digital%20avec%20vous."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-emerald-500/5 hover:from-emerald-600/30 hover:to-emerald-500/10 border border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                <MessageSquare size={20} />
-              </div>
-              <div className="text-left">
-                <h4 className="text-white font-heading font-bold text-sm leading-tight">WhatsApp Live Chat</h4>
-                <p className="text-[11px] text-emerald-400 font-medium leading-tight mt-0.5">
-                  {lang === "fr" ? "Consultation immédiate (24/7)" : "Immediate consultation (24/7)"}
-                </p>
-              </div>
+        {/* Channels: one ruled row each */}
+        <ul>
+          {channels.map((c, i) => (
+            <li key={c.title} className="border-b border-gradus-border">
+              <a
+                href={c.href}
+                {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="step-x group grid grid-cols-[2rem_1fr_auto] items-baseline gap-3 px-6 py-4"
+              >
+                <span className="label-utility group-hover:text-accent-text transition-colors">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>
+                  <span className="block text-caption text-text-primary">{c.title}</span>
+                  <span className="block label-utility mt-1">{c.note}</span>
+                </span>
+                <ArrowUpRight size={16} className="self-center text-text-secondary group-hover:text-accent transition-colors" aria-hidden="true" />
+                {c.external && (
+                  <span className="sr-only">{fr ? "(s'ouvre dans un nouvel onglet)" : "(opens in a new tab)"}</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Estimate request */}
+        <div className="p-6">
+          {formSubmitted ? (
+            <div className="py-4" role="status">
+              <p className="label-utility text-accent-text mb-3">{fr ? "Envoyé" : "Sent"}</p>
+              <h3 className="text-heading font-display text-text-primary">
+                {fr ? "Demande reçue." : "Request received."}
+              </h3>
+              <p className="text-caption text-text-secondary mt-2">
+                {fr
+                  ? "Nos experts analyseront votre demande et vous recontacteront sous 5 minutes."
+                  : "Our experts will analyze your request and contact you within 5 minutes."}
+              </p>
             </div>
-            <ExternalLink size={16} className="text-emerald-400/70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-          </a>
+          ) : (
+            <form onSubmit={handleLeadSubmit} className="flex flex-col gap-5">
+              {/* Honeypot: hidden from people, filled by bots */}
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] w-px h-px opacity-0"
+              />
 
-          {/* B. Calendly 15-Min Briefing Reservation */}
-          <a
-            href="https://calendly.com" 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 transition-all duration-300 group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent shrink-0">
-                <Calendar size={20} />
-              </div>
-              <div className="text-left">
-                <h4 className="text-white font-heading font-bold text-sm leading-tight">
-                  {lang === "fr" ? "Réserver un appel" : "Schedule a call"}
-                </h4>
-                <p className="text-[11px] text-gradus-muted leading-tight mt-0.5">
-                  {lang === "fr" ? "Appel stratégique 15 min" : "15-min discovery call"}
-                </p>
-              </div>
-            </div>
-            <ChevronRight size={16} className="text-gradus-muted group-hover:translate-x-1 transition-transform duration-300" />
-          </a>
+              <h3 className="label-utility text-text-primary">
+                {fr ? "Évaluer mon investissement digital" : "Evaluate my digital investment"}
+              </h3>
 
-          {/* C. Quick Phone Dial & Direct Mail */}
-          <div className="grid grid-cols-2 gap-3">
-            <a
-              href="tel:+212691404005"
-              className="flex items-center gap-2 p-3 rounded-xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors duration-300 text-left"
-            >
-              <Phone size={14} className="text-accent" />
+              {/* Service choice */}
+              <div className="grid grid-cols-2 gap-px bg-gradus-border border border-gradus-border" role="group" aria-label={fr ? "Service" : "Service"}>
+                {servicesList.map((srv) => (
+                  <button
+                    key={srv.id}
+                    type="button"
+                    onClick={() => setSelectedService(srv.id)}
+                    aria-pressed={selectedService === srv.id}
+                    className={`label-utility py-3 px-2 text-center transition-colors ${
+                      selectedService === srv.id
+                        ? "bg-accent text-white"
+                        : "bg-void text-text-secondary hover:text-text-primary"
+                    }`}
+                  >
+                    {fr ? srv.labelFr : srv.labelEn}
+                  </button>
+                ))}
+              </div>
+
               <div>
-                <span className="block text-[11px] text-gradus-muted uppercase leading-none">Phone</span>
-                <span className="text-xs font-semibold text-white leading-tight">Appeler</span>
-              </div>
-            </a>
-            <a
-              href="mailto:contact@gradus.ma"
-              className="flex items-center gap-2 p-3 rounded-xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors duration-300 text-left"
-            >
-              <Mail size={14} className="text-accent" />
-              <div>
-                <span className="block text-[11px] text-gradus-muted uppercase leading-none">Email</span>
-                <span className="text-xs font-semibold text-white leading-tight">Écrire</span>
-              </div>
-            </a>
-          </div>
-
-          <div className="h-px bg-white/5 my-2" />
-
-          {/* D. Premium Lead Capture Estimator Form */}
-          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/5 text-left relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-xl pointer-events-none" />
-            
-            {formSubmitted ? (
-              <div className="py-6 flex flex-col items-center justify-center text-center animate-fadeIn">
-                <CheckCircle size={36} className="text-accent mb-3 animate-scaleIn" />
-                <h4 className="text-white font-heading font-bold text-sm">
-                  {lang === "fr" ? "Demande reçue !" : "Request received!"}
-                </h4>
-                <p className="text-[11px] text-gradus-muted mt-1 max-w-[240px]">
-                  {lang === "fr" 
-                    ? "Nos experts analyseront votre demande et vous recontacteront sous 5 minutes." 
-                    : "Our experts will analyze your request and contact you within 5 minutes."}
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleLeadSubmit} className="flex flex-col gap-3">
-                {/* Honeypot: hidden from people, filled by bots */}
-                <input
-                  type="text"
-                  name="company"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                  className="absolute -left-[9999px] w-px h-px opacity-0"
-                />
-                <h4 className="text-xs font-heading font-extrabold text-white tracking-wide uppercase flex items-center gap-1.5">
-                  <Sparkles size={12} className="text-accent" /> 
-                  {lang === "fr" ? "Évaluer mon investissement digital" : "Evaluate my digital investment"}
-                </h4>
-                
-                {/* Service Tabs */}
-                <div className="grid grid-cols-4 gap-1 mt-1">
-                  {servicesList.map((srv) => (
-                    <button
-                      key={srv.id}
-                      type="button"
-                      onClick={() => setSelectedService(srv.id)}
-                      aria-pressed={selectedService === srv.id}
-                      className={`text-[11px] font-heading font-medium py-1.5 px-0.5 rounded-lg border text-center transition-all ${
-                        selectedService === srv.id
-                          ? "bg-accent border-accent text-white"
-                          : "bg-transparent border-white/5 hover:border-white/10 text-gradus-muted hover:text-white"
-                      }`}
-                    >
-                      {lang === "fr" ? srv.labelFr.split(" ")[0] : srv.labelEn.split(" ")[0]}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Inputs */}
-                <label htmlFor="hub-name" className="sr-only">
-                  {lang === "fr" ? "Votre nom ou entreprise" : "Your name or company"}
+                <label htmlFor="hub-name" className="label-utility">
+                  {fr ? "Nom ou entreprise" : "Name or company"}
                 </label>
                 <input
                   id="hub-name"
@@ -332,15 +280,17 @@ export default function ConversionHub() {
                   type="text"
                   autoComplete="name"
                   maxLength={120}
-                  placeholder={lang === "fr" ? "Votre nom / Entreprise" : "Your Name / Company"}
+                  placeholder={fr ? "Votre nom / Entreprise" : "Your name / Company"}
                   required
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50 focus:outline-none transition-colors"
+                  className={inputClass}
                 />
+              </div>
 
-                <label htmlFor="hub-phone" className="sr-only">
-                  {lang === "fr" ? "Numéro WhatsApp" : "WhatsApp number"}
+              <div>
+                <label htmlFor="hub-phone" className="label-utility">
+                  {fr ? "Numéro WhatsApp" : "WhatsApp number"}
                 </label>
                 <input
                   id="hub-phone"
@@ -348,42 +298,41 @@ export default function ConversionHub() {
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
-                  placeholder={lang === "fr" ? "Téléphone WhatsApp" : "WhatsApp Number"}
+                  placeholder="+212 6…"
                   aria-invalid={submitError ? true : undefined}
                   aria-describedby={submitError ? "hub-error" : undefined}
                   required
                   value={clientContact}
                   onChange={(e) => setClientContact(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50 focus:outline-none transition-colors"
+                  className={inputClass}
                 />
+              </div>
 
-                {submitError && (
-                  <p id="hub-error" role="alert" className="text-xs text-red-300">
-                    {submitError}
-                  </p>
+              {submitError && (
+                <p id="hub-error" role="alert" className="text-caption text-red-300">
+                  {submitError}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="group w-full inline-flex items-center justify-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent transition-colors duration-300 disabled:opacity-60"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                    <span>{fr ? "Envoi en cours" : "Sending"}</span>
+                  </>
+                ) : (
+                  <>
+                    {fr ? "Valider ma demande" : "Submit request"}
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
+                  </>
                 )}
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-accent hover:bg-white hover:scale-[1.02] text-white hover:text-black font-heading font-extrabold text-xs py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-                      <span className="sr-only">{lang === "fr" ? "Envoi en cours" : "Sending"}</span>
-                    </>
-                  ) : (
-                    <>
-                      {lang === "fr" ? "Valider Ma Demande" : "Submit Request"}
-                      <Send size={12} />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
-
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </>

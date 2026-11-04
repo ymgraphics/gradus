@@ -41,7 +41,9 @@ export default function Hero() {
 
   // Each headline line rises from behind its own baseline — the staircase builds step by step
   const lineVariants: Variants = {
-    hidden: { y: reduced ? 0 : "110%", opacity: reduced ? 0 : 1 },
+    // Deterministic on server and client; <MotionConfig reducedMotion="user">
+    // (SmoothScroll) drops the transform for visitors who prefer less motion.
+    hidden: { y: "110%", opacity: 1 },
     visible: (i: number) => ({
       y: 0,
       opacity: 1,
@@ -50,7 +52,7 @@ export default function Hero() {
   };
 
   const fade: Variants = {
-    hidden: { opacity: 0, y: reduced ? 0 : 16 },
+    hidden: { opacity: 0, y: 16 },
     visible: (d: number) => ({
       opacity: 1,
       y: 0,

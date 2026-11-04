@@ -191,7 +191,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram Gradus"
-                    className="text-gradus-muted hover:text-gradus-gold transition-colors p-2"
+                    className="text-text-secondary hover:text-accent transition-colors p-2"
                   >
                     <Instagram size={24} />
                   </a>
@@ -200,7 +200,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn Gradus"
-                    className="text-gradus-muted hover:text-gradus-gold transition-colors p-2"
+                    className="text-text-secondary hover:text-accent transition-colors p-2"
                   >
                     <Linkedin size={24} />
                   </a>
@@ -209,7 +209,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook Gradus"
-                    className="text-gradus-muted hover:text-gradus-gold transition-colors p-2"
+                    className="text-text-secondary hover:text-accent transition-colors p-2"
                   >
                     <Facebook size={24} />
                   </a>

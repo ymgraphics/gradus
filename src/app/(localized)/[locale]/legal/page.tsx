@@ -20,13 +20,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default function LegalPage() {
   return (
-    <main className="min-h-screen bg-gradus-primary text-white">
+    <main className="min-h-screen bg-void text-text-primary">
       <Navbar />
-      <section className="container pt-36 pb-24 max-w-4xl">
-        <h1 className="text-4xl md:text-6xl font-display font-bold tracking-normal mb-8">
+      <section className="container pt-36 pb-24 md:pt-48 md:pb-36">
+        <p className="label-utility mb-6 flex items-center gap-3">
+          <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
+          Légal
+        </p>
+        <h1 className="text-display-lg font-display text-text-primary mb-12 max-w-4xl">
           Mentions légales
         </h1>
-        <div className="space-y-6 text-white/60 leading-relaxed">
+        <div className="md:ml-[8.333%] max-w-2xl border-t border-gradus-border pt-10 space-y-6 text-body text-text-secondary">
           <p>
             Gradus Agency est une agence créative et marketing digital basée à Casablanca, Maroc.
           </p>
