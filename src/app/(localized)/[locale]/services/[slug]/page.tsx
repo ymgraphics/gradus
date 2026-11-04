@@ -387,7 +387,7 @@ export default async function ServiceLandingPage({ params }: { params: Promise<{
               <a 
                 key={project.id}
                 href={`/projects/${getSeoSlug(project)}`}
-                className="text-white/40 text-xs md:text-sm hover:text-gradus-gold transition-colors px-4 py-2 border border-white/10 rounded-full hover:border-gradus-gold/30 bg-white/5"
+                className="text-white/60 text-xs md:text-sm hover:text-accent-text transition-colors px-4 py-2 border border-white/10 rounded-full hover:border-gradus-gold/30 bg-white/5"
               >
                 {project.client} — {project.category}
               </a>

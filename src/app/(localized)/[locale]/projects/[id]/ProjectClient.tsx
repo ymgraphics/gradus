@@ -107,7 +107,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                 <motion.span 
                   initial={{ opacity: 0, letterSpacing: "0.2em" }}
                   animate={{ opacity: 1, letterSpacing: "0.6em" }}
-                  className="text-gradus-gold font-mono text-[8px] md:text-[10px] uppercase font-bold mb-8 block"
+                  className="text-accent-text font-mono text-[11px] uppercase font-bold mb-8 block"
                 >
                    {project.industry || project.category}
                 </motion.span>
@@ -118,13 +118,13 @@ export default function ProjectClient({ project }: ProjectClientProps) {
 
                 <div className="flex items-center justify-center gap-12 opacity-40">
                    <div className="flex flex-col items-center">
-                      <span className="text-[8px] font-mono uppercase tracking-widest mb-1 text-white/50">Location</span>
-                      <span className="text-[10px] font-mono font-bold tracking-[0.2em]">Casablanca</span>
+                      <span className="text-[11px] font-mono uppercase tracking-widest mb-1 text-white/50">Location</span>
+                      <span className="text-[11px] font-mono font-bold tracking-[0.2em]">Casablanca</span>
                    </div>
                    <div className="w-[1px] h-8 bg-white/20" />
                    <div className="flex flex-col items-center">
-                      <span className="text-[8px] font-mono uppercase tracking-widest mb-1 text-white/50">Year</span>
-                      <span className="text-[10px] font-mono font-bold tracking-[0.2em]">{project.year}</span>
+                      <span className="text-[11px] font-mono uppercase tracking-widest mb-1 text-white/50">Year</span>
+                      <span className="text-[11px] font-mono font-bold tracking-[0.2em]">{project.year}</span>
                    </div>
                 </div>
              </motion.div>
@@ -160,7 +160,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                             {project.client.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()}
                          </span>
                       )}
-                      <span className="font-mono text-[9px] md:text-[11px] tracking-[0.4em] uppercase text-white/40 mt-4">
+                      <span className="font-mono text-[11px] tracking-[0.4em] uppercase text-white/60 mt-4">
                          Creative Direction & Strategy Campaign
                       </span>
                    </div>
@@ -172,7 +172,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                 <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
                    <Plus size={20} className="text-white" />
                 </div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-white/60">Campaign Overview</span>
+                <span className="text-[11px] font-mono uppercase tracking-widest text-white/60">Campaign Overview</span>
              </div>
           </motion.div>
         </motion.div>
@@ -204,7 +204,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                        </p>
                        <div className="flex flex-wrap gap-4">
                           {project.tags.map(tag => (
-                             <span key={tag} className="px-5 py-2 rounded-full border border-white/10 text-white/40 text-[10px] font-mono uppercase tracking-[0.2em] hover:text-gradus-gold hover:border-gradus-gold transition-colors duration-300">
+                             <span key={tag} className="px-5 py-2 rounded-full border border-white/10 text-white/60 text-[11px] font-mono uppercase tracking-[0.2em] hover:text-accent-text hover:border-gradus-gold transition-colors duration-300">
                                 {tag}
                              </span>
                           ))}
@@ -220,15 +220,15 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                     viewport={{ once: true }}
                     className="p-10 rounded-[40px] bg-white/[0.02] border border-white/5 backdrop-blur-3xl"
                  >
-                    <div className="flex items-center gap-4 mb-8 text-gradus-gold">
+                    <div className="flex items-center gap-4 mb-8 text-accent-text">
                        <TrendingUp size={24} />
-                       <span className="font-mono text-[10px] tracking-[0.4em] uppercase font-bold">Campaign Impact</span>
+                       <span className="font-mono text-[11px] tracking-[0.4em] uppercase font-bold">Campaign Impact</span>
                     </div>
                     
                     <div className="space-y-8">
                        <div>
                           <div className="text-4xl font-heading font-bold text-white mb-2">Performance.</div>
-                          <p className="text-white/40 text-sm">
+                          <p className="text-white/60 text-sm">
                              {project.results || "Une présence social media redéfinie pour capturer l'attention d'une audience premium."}
                           </p>
                        </div>
@@ -236,11 +236,11 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                        <div className="grid grid-cols-2 gap-4 pt-8 border-t border-white/5">
                           <div>
                              <div className="text-gradus-gold text-2xl font-bold">Live</div>
-                             <div className="text-[8px] font-mono uppercase tracking-widest text-white/20 mt-1">Status</div>
+                             <div className="text-[11px] font-mono uppercase tracking-widest text-white/60 mt-1">Status</div>
                           </div>
                           <div>
                              <div className="text-white text-2xl font-bold">{project.year}</div>
-                             <div className="text-[8px] font-mono uppercase tracking-widest text-white/20 mt-1">Launch</div>
+                             <div className="text-[11px] font-mono uppercase tracking-widest text-white/60 mt-1">Launch</div>
                           </div>
                        </div>
                     </div>
@@ -256,7 +256,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
            
            <div className="flex items-center gap-4 mb-20">
               <span className="w-12 h-[1px] bg-gradus-gold/30" />
-              <h2 className="text-gradus-gold font-mono text-[10px] tracking-[0.6em] uppercase font-bold">Curated Assets</h2>
+              <h2 className="text-accent-text font-mono text-[11px] tracking-[0.6em] uppercase font-bold">Curated Assets</h2>
            </div>
 
            <div className="columns-1 md:columns-2 gap-8 space-y-8">
@@ -304,9 +304,9 @@ export default function ProjectClient({ project }: ProjectClientProps) {
               >
                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                     <div>
-                       <div className="flex items-center gap-4 mb-8 text-gradus-gold">
+                       <div className="flex items-center gap-4 mb-8 text-accent-text">
                           <Info size={20} />
-                          <span className="font-mono text-[10px] tracking-[0.4em] uppercase font-bold">The Narrative</span>
+                          <span className="font-mono text-[11px] tracking-[0.4em] uppercase font-bold">The Narrative</span>
                        </div>
                        <h3 className="text-5xl font-heading font-medium leading-tight mb-8">
                           Résoudre le <span className="text-gradus-gold italic">Challenge</span> créatif.
@@ -315,7 +315,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                           {project.challenge}
                        </p>
                        <div className="p-8 rounded-3xl bg-gradus-gold/5 border border-gradus-gold/10">
-                          <p className="text-gradus-gold font-medium italic text-lg leading-relaxed">
+                          <p className="text-accent-text font-medium italic text-lg leading-relaxed">
                              "{project.solution}"
                           </p>
                        </div>
@@ -357,7 +357,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
            >
-              <span className="text-gradus-gold font-mono text-[10px] tracking-[0.6em] uppercase font-bold mb-12 block">Discover More</span>
+              <span className="text-accent-text font-mono text-[11px] tracking-[0.6em] uppercase font-bold mb-12 block">Discover More</span>
               <Link href="/#portfolio" className="group block relative">
                  <h2 className="text-[12vw] md:text-[15vw] font-heading font-bold text-white/5 group-hover:text-white transition-all duration-1000 leading-none tracking-normal">
                     Portfolio.
@@ -375,7 +375,7 @@ export default function ProjectClient({ project }: ProjectClientProps) {
                    Start Project
                  </Link>
                  <button 
-                   className="flex items-center gap-4 text-white/30 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest"
+                   className="flex items-center gap-4 text-white/60 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest"
                    onClick={() => navigator.share?.({ title: project.client, url: window.location.href })}
                  >
                    <Share2 size={18} />

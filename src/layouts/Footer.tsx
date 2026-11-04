@@ -53,7 +53,7 @@ export default function Footer({ projects = defaultProjects }: FooterProps) {
 
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-void transition-colors duration-300 interactive shrink-0"
+            className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-text-primary transition-colors duration-300 interactive shrink-0"
           >
             {t("footer.cta")}
             <ArrowUpRight

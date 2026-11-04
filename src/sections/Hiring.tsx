@@ -24,7 +24,7 @@ export default function Hiring({ jobs }: HiringProps) {
           className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
-            <span className="text-accent font-mono text-sm sm:text-base font-bold tracking-widest uppercase mb-4 block">
+            <span className="text-accent-text font-mono text-sm sm:text-base font-bold tracking-widest uppercase mb-4 block">
               {lang === "fr" ? "Recrutement" : "Hiring"}
             </span>
             <h2 className="text-[50px] md:text-[60px] leading-tight font-display font-bold tracking-normal text-white">
@@ -32,7 +32,7 @@ export default function Hiring({ jobs }: HiringProps) {
               <span className="text-accent">{lang === "fr" ? "l'équipe" : "the team"}</span>
             </h2>
           </div>
-          <Link href="/contact" className="hidden md:flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:text-accent hover:border-white/20 transition-all duration-500 interactive">
+          <Link href="/contact" className="hidden md:flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:text-accent-text hover:border-white/20 transition-all duration-500 interactive">
             {lang === "fr" ? "Candidature spontanée" : "Spontaneous Application"} <ArrowUpRight className="w-5 h-5" />
           </Link>
         </motion.div>
@@ -59,7 +59,7 @@ export default function Hiring({ jobs }: HiringProps) {
                       {job.title}
                     </h3>
                     
-                    <div className="flex flex-wrap items-center gap-4 text-gradus-muted text-[10px] md:text-[11px] font-mono tracking-[0.2em] uppercase font-bold">
+                    <div className="flex flex-wrap items-center gap-4 text-gradus-muted text-[11px] font-mono tracking-[0.2em] uppercase font-bold">
                       {job.department && (
                         <div className="flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10">
                           <Building className="w-4 h-4 text-accent" />
@@ -81,14 +81,14 @@ export default function Hiring({ jobs }: HiringProps) {
                     </div>
                     
                     {job.description && (
-                      <p className="mt-10 text-white/40 max-w-4xl leading-relaxed text-base md:text-lg border-l-2 border-accent/20 pl-8 group-hover:border-accent/50 transition-colors duration-500 font-light">
+                      <p className="mt-10 text-white/60 max-w-4xl leading-relaxed text-base md:text-lg border-l-2 border-accent/20 pl-8 group-hover:border-accent/50 transition-colors duration-500 font-light">
                         {job.description}
                       </p>
                     )}
                   </div>
 
                   <div className="shrink-0 flex items-center justify-between lg:justify-center w-full lg:w-auto mt-8 lg:mt-0 pt-10 lg:pt-0 border-t border-white/5 lg:border-t-0">
-                    <span className="text-accent text-xs font-mono tracking-[0.3em] uppercase font-bold lg:hidden">
+                    <span className="text-accent-text text-xs font-mono tracking-[0.3em] uppercase font-bold lg:hidden">
                       {lang === "fr" ? "Postuler" : "Apply"}
                     </span>
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/5 backdrop-blur-xl flex items-center justify-center text-white border border-white/10 group-hover:bg-accent group-hover:text-gradus-primary group-hover:border-accent group-hover:scale-110 transition-all duration-500 shadow-2xl">
@@ -106,7 +106,7 @@ export default function Hiring({ jobs }: HiringProps) {
                 ? "Aucune offre pour le moment"
                 : "No open positions right now"}
             </h3>
-            <p className="text-white/40 mb-12 max-w-2xl mx-auto leading-relaxed text-lg font-light">
+            <p className="text-white/60 mb-12 max-w-2xl mx-auto leading-relaxed text-lg font-light">
               {lang === "fr"
                 ? "Nous sommes toujours à la recherche de nouveaux talents. N'hésitez pas à nous envoyer une candidature spontanée, nous serions ravis d'en savoir plus sur vous."
                 : "We are always on the lookout for new talent. Feel free to send us an open application, we'd love to learn more about you."}

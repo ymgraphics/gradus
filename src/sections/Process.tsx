@@ -41,7 +41,7 @@ export default function Process() {
               style={{ "--i": i } as React.CSSProperties}
               className="group relative flex flex-col items-start text-left border-t border-gradus-border pt-8 md:mt-[calc(var(--i)*3rem)]"
             >
-              <div className="label-utility text-text-secondary group-hover:text-accent transition-colors duration-300 mb-8">
+              <div className="label-utility text-text-secondary group-hover:text-accent-text transition-colors duration-300 mb-8">
                 {step.num}
               </div>
               <h3 className="text-heading font-display text-text-primary mb-4">

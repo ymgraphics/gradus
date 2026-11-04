@@ -59,7 +59,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8"
             >
               <MapPin size={12} className="text-gradus-gold" />
-              <span className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/70">
+              <span className="text-[11px] font-mono tracking-[0.25em] uppercase text-white/70">
                 Casablanca · Maroc
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
@@ -116,7 +116,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
         <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto">
           <div className="flex items-center gap-4 mb-16">
             <span className="w-12 h-[1px] bg-gradus-gold/30" />
-            <h2 className="text-gradus-gold font-mono text-[10px] tracking-[0.5em] uppercase font-bold text-left">
+            <h2 className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold text-left">
               {lang === "fr" ? "Nos Expertises Locales" : "Our Capabilities"}
             </h2>
           </div>
@@ -137,7 +137,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
                 <h3 className="text-2xl font-heading font-bold text-white group-hover:text-gradus-gold transition-colors duration-300 mb-4">
                   {feat.title[lang]}
                 </h3>
-                <p className="text-white/40 text-sm leading-relaxed font-body">
+                <p className="text-white/60 text-sm leading-relaxed font-body">
                   {feat.desc[lang]}
                 </p>
               </motion.div>
@@ -153,7 +153,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
             <div className="text-left">
               <div className="flex items-center gap-4 mb-6">
                 <span className="w-12 h-[1px] bg-gradus-gold/30" />
-                <span className="text-gradus-gold font-mono text-[10px] tracking-[0.5em] uppercase font-bold">
+                <span className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold">
                   {lang === "fr" ? "Études de cas réelles" : "Real Case Studies"}
                 </span>
               </div>
@@ -163,7 +163,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
             </div>
             <Link
               href="/#portfolio"
-              className="text-sm font-mono tracking-[0.1em] text-white/50 hover:text-gradus-gold transition-colors flex items-center gap-2 group self-start md:self-end uppercase"
+              className="text-sm font-mono tracking-[0.1em] text-white/50 hover:text-accent-text transition-colors flex items-center gap-2 group self-start md:self-end uppercase"
             >
               {lang === "fr" ? "Voir tout le portfolio" : "View Entire Portfolio"}
               <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -197,18 +197,18 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-80" />
 
                       <div className="absolute bottom-10 left-10 right-10 flex flex-col justify-end text-left">
-                        <span className="bg-white/10 backdrop-blur-xl px-4 py-1.5 rounded-full text-white/90 text-[9px] font-mono tracking-widest uppercase border border-white/10 self-start mb-4">
+                        <span className="bg-white/10 backdrop-blur-xl px-4 py-1.5 rounded-full text-white/90 text-[11px] font-mono tracking-widest uppercase border border-white/10 self-start mb-4">
                           {project.client}
                         </span>
                         <h3 className="text-3xl font-heading font-bold text-white group-hover:text-gradus-gold transition-colors duration-300">
                           {project.client}
                         </h3>
                         <div className="flex items-center gap-4 mt-2">
-                          <span className="text-white/40 text-[9px] font-mono tracking-widest uppercase">
+                          <span className="text-white/60 text-[11px] font-mono tracking-widest uppercase">
                             {project.category}
                           </span>
                           <span className="w-4 h-[1px] bg-white/20" />
-                          <span className="text-gradus-gold text-[9px] font-mono tracking-widest uppercase">
+                          <span className="text-accent-text text-[11px] font-mono tracking-widest uppercase">
                             {project.year}
                           </span>
                         </div>
@@ -220,7 +220,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
             </div>
           ) : (
             <div className="text-center py-20 bg-white/[0.01] border border-white/5 rounded-[32px]">
-              <p className="text-white/40 font-mono text-sm uppercase tracking-widest">
+              <p className="text-white/60 font-mono text-sm uppercase tracking-widest">
                 {lang === "fr" ? "Aucun projet de cette catégorie pour le moment." : "No projects in this category yet."}
               </p>
             </div>
@@ -256,7 +256,7 @@ export default function ServiceClient({ slug, serviceData, projects }: ServiceCl
               </Link>
               <a
                 href="mailto:contact@gradus.ma"
-                className="text-white/40 hover:text-white transition-colors font-mono text-sm uppercase tracking-widest px-8 py-4 rounded-full border border-white/10 hover:bg-white/5 transition-all duration-500"
+                className="text-white/60 hover:text-white transition-colors font-mono text-sm uppercase tracking-widest px-8 py-4 rounded-full border border-white/10 hover:bg-white/5 transition-all duration-500"
               >
                 contact@gradus.ma
               </a>

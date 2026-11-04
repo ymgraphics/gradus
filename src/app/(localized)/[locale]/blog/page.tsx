@@ -143,7 +143,7 @@ export default async function BlogPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
               <Newspaper size={12} className="text-gradus-gold" />
-              <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/70">
+              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
                 Insights & Inspirations
               </span>
             </div>
@@ -172,14 +172,14 @@ export default async function BlogPage() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
                     />
-                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-[9px] font-mono tracking-wider uppercase text-gradus-gold">
+                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-[11px] font-mono tracking-wider uppercase text-accent-text">
                       {post.category}
                     </div>
                   </div>
 
                   <div className="p-8">
                     {/* Meta info row */}
-                    <div className="flex items-center gap-4 text-white/30 text-[10px] font-mono uppercase tracking-widest mb-4">
+                    <div className="flex items-center gap-4 text-white/60 text-[11px] font-mono uppercase tracking-widest mb-4">
                       <div className="flex items-center gap-1.5">
                         <Calendar size={10} />
                         <span>{post.date}</span>
@@ -194,14 +194,14 @@ export default async function BlogPage() {
                     <h3 className="text-xl md:text-2xl font-heading font-bold text-white group-hover:text-gradus-gold transition-colors duration-300 mb-4 line-clamp-3 leading-snug">
                       {post.title}
                     </h3>
-                    <p className="text-white/40 text-sm leading-relaxed font-body line-clamp-4">
+                    <p className="text-white/60 text-sm leading-relaxed font-body line-clamp-4">
                       {post.excerpt}
                     </p>
                   </div>
                 </div>
 
                 <div className="p-8 pt-0 mt-auto">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono text-white/50 group-hover:text-gradus-gold transition-colors duration-300 font-bold uppercase tracking-wider">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono text-white/50 group-hover:text-accent-text transition-colors duration-300 font-bold uppercase tracking-wider">
                     Lire l'article
                     <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300 text-gradus-gold" />
                   </div>

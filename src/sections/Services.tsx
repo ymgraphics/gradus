@@ -94,7 +94,7 @@ export default function Services() {
                 href={`/contact?service=${encodeURIComponent(d.contact)}`}
                 className="step-x group grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[4rem_1fr_1fr_auto] items-baseline gap-4 md:gap-8 py-7 md:py-9 interactive"
               >
-                <span className="label-utility text-text-secondary group-hover:text-accent transition-colors duration-300">
+                <span className="label-utility text-text-secondary group-hover:text-accent-text transition-colors duration-300">
                   {d.num}
                 </span>
                 <h3 className="text-display-md font-display text-text-primary group-hover:text-text-primary transition-colors">

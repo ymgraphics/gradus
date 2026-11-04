@@ -137,7 +137,7 @@ export default function ConversionHub() {
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         {/* Pulsing notification badge if closed */}
         {!isOpen && (
-          <div className="bg-accent text-black text-[10px] font-heading font-bold px-2 py-0.5 rounded-full animate-bounce shadow-md pointer-events-none">
+          <div className="bg-accent text-white text-[11px] font-heading font-bold px-2 py-0.5 rounded-full animate-bounce shadow-md pointer-events-none">
             {lang === "fr" ? "En ligne · Online" : "Online"}
           </div>
         )}
@@ -187,7 +187,7 @@ export default function ConversionHub() {
         <div className="p-6 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent relative">
           <div className="absolute top-6 right-6 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-[10px] font-heading font-semibold tracking-wider uppercase">Active</span>
+            <span className="text-[11px] font-heading font-semibold tracking-wider uppercase">Active</span>
           </div>
 
           <h3 className="text-xl font-heading font-extrabold text-white flex items-center gap-2">
@@ -253,7 +253,7 @@ export default function ConversionHub() {
             >
               <Phone size={14} className="text-accent" />
               <div>
-                <span className="block text-[10px] text-gradus-muted uppercase leading-none">Phone</span>
+                <span className="block text-[11px] text-gradus-muted uppercase leading-none">Phone</span>
                 <span className="text-xs font-semibold text-white leading-tight">Appeler</span>
               </div>
             </a>
@@ -263,7 +263,7 @@ export default function ConversionHub() {
             >
               <Mail size={14} className="text-accent" />
               <div>
-                <span className="block text-[10px] text-gradus-muted uppercase leading-none">Email</span>
+                <span className="block text-[11px] text-gradus-muted uppercase leading-none">Email</span>
                 <span className="text-xs font-semibold text-white leading-tight">Écrire</span>
               </div>
             </a>
@@ -311,9 +311,9 @@ export default function ConversionHub() {
                       type="button"
                       onClick={() => setSelectedService(srv.id)}
                       aria-pressed={selectedService === srv.id}
-                      className={`text-[9px] font-heading font-medium py-1.5 px-0.5 rounded-lg border text-center transition-all ${
+                      className={`text-[11px] font-heading font-medium py-1.5 px-0.5 rounded-lg border text-center transition-all ${
                         selectedService === srv.id
-                          ? "bg-accent border-accent text-black"
+                          ? "bg-accent border-accent text-white"
                           : "bg-transparent border-white/5 hover:border-white/10 text-gradus-muted hover:text-white"
                       }`}
                     >
@@ -336,7 +336,7 @@ export default function ConversionHub() {
                   required
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
+                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50 focus:outline-none transition-colors"
                 />
 
                 <label htmlFor="hub-phone" className="sr-only">
@@ -354,7 +354,7 @@ export default function ConversionHub() {
                   required
                   value={clientContact}
                   onChange={(e) => setClientContact(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
+                  className="w-full bg-black/40 border border-white/5 focus:border-accent/50 rounded-xl px-3 py-2 text-xs text-white placeholder-white/50 focus:outline-none transition-colors"
                 />
 
                 {submitError && (
@@ -366,11 +366,11 @@ export default function ConversionHub() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-accent to-gradus-orange hover:from-white hover:to-white hover:scale-[1.02] text-black font-heading font-extrabold text-xs py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                  className="w-full bg-accent hover:bg-white hover:scale-[1.02] text-white hover:text-black font-heading font-extrabold text-xs py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                       <span className="sr-only">{lang === "fr" ? "Envoi en cours" : "Sending"}</span>
                     </>
                   ) : (

@@ -58,7 +58,7 @@ export default function FaqClient({ projects, faqItems }: FaqClientProps) {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
               <HelpCircle size={12} className="text-gradus-gold" />
-              <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/70">
+              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
                 FAQ & Aide
               </span>
             </div>
@@ -112,7 +112,7 @@ export default function FaqClient({ projects, faqItems }: FaqClientProps) {
                       className="w-full p-8 flex items-center justify-between gap-6 text-left group"
                     >
                       <h3 className={`text-lg md:text-xl font-heading font-bold transition-colors duration-300 ${
-                        isExpanded ? "text-gradus-gold" : "text-white group-hover:text-gradus-gold"
+                        isExpanded ? "text-accent-text" : "text-white group-hover:text-accent-text"
                       }`}>
                         {faq.question[lang]}
                       </h3>

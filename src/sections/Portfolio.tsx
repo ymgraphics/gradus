@@ -87,7 +87,7 @@ export default function Portfolio({ projects: projectsProp }: PortfolioProps = {
               onClick={() => setActiveTab(cat.key)}
               className={`label-utility transition-colors duration-300 interactive ${
                 activeTab === cat.key
-                  ? "text-accent"
+                  ? "text-accent-text"
                   : "text-text-secondary hover:text-text-primary"
               }`}
             >
@@ -175,7 +175,7 @@ export default function Portfolio({ projects: projectsProp }: PortfolioProps = {
                         {project.category} — {project.year}
                       </span>
                     </div>
-                    <span className="label-utility text-accent mt-2 inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="label-utility text-accent-text mt-2 inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {fr ? "Voir l'étude de cas" : "View case study"} →
                     </span>
                   </Link>

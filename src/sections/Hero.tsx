@@ -106,7 +106,7 @@ export default function Hero() {
             <motion.div custom={1.15} initial="hidden" animate="visible" variants={fade}>
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-void transition-colors duration-300 interactive"
+                className="group inline-flex items-center gap-4 border border-accent px-8 py-4 label-utility text-text-primary hover:bg-accent hover:text-text-primary transition-colors duration-300 interactive"
               >
                 {t("hero.cta")}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

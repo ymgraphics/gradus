@@ -97,7 +97,7 @@ export default async function AboutPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
               <Sparkles size={12} className="text-gradus-gold" />
-              <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/70">
+              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/70">
                 L'Agence Créative
               </span>
             </div>
@@ -116,7 +116,7 @@ export default async function AboutPage() {
         <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             <div className="lg:col-span-4">
-              <h2 className="text-gradus-gold font-mono text-[10px] tracking-[0.5em] uppercase font-bold mb-6">
+              <h2 className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold mb-6">
                 Nos Principes Fondamentaux
               </h2>
               <h3 className="text-3xl md:text-5xl font-display font-bold leading-tight">
@@ -129,7 +129,7 @@ export default async function AboutPage() {
                   <Zap size={18} />
                 </div>
                 <h4 className="text-xl font-heading font-bold mb-3">Audace Créative</h4>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-white/60 text-sm leading-relaxed">
                   Concevoir des identités visuelles d'exception. Nous élaborons des directions artistiques novatrices conçues spécifiquement pour dominer votre secteur d'activité.
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default async function AboutPage() {
                   <Award size={18} />
                 </div>
                 <h4 className="text-xl font-heading font-bold mb-3">Précision Analytique</h4>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-white/60 text-sm leading-relaxed">
                   Fonder chaque décision marketing sur des données tangibles. Nous structurons des stratégies d'acquisition digitale optimisées pour maximiser votre retour sur investissement.
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default async function AboutPage() {
                   <Heart size={18} />
                 </div>
                 <h4 className="text-xl font-heading font-bold mb-3">Partenariat Stratégique</h4>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-white/60 text-sm leading-relaxed">
                   Opérer comme une extension directe de votre entreprise. Nous intégrons vos objectifs commerciaux globaux pour garantir une croissance pérenne et mesurable.
                 </p>
               </div>
@@ -159,7 +159,7 @@ export default async function AboutPage() {
                   <CheckCircle2 size={18} />
                 </div>
                 <h4 className="text-xl font-heading font-bold mb-3">Exigence Opérationnelle</h4>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-white/60 text-sm leading-relaxed">
                   Garantir une exécution irréprochable des projets. Nous maintenons un standard d'excellence absolu sur la production audiovisuelle et le développement technologique.
                 </p>
               </div>
@@ -173,7 +173,7 @@ export default async function AboutPage() {
         <div className="container max-w-7xl px-6 md:px-12 lg:px-24 mx-auto text-left">
           <div className="flex items-center gap-4 mb-16">
             <span className="w-12 h-[1px] bg-gradus-gold/30" />
-            <h2 className="text-gradus-gold font-mono text-[10px] tracking-[0.5em] uppercase font-bold">
+            <h2 className="text-accent-text font-mono text-[11px] tracking-[0.5em] uppercase font-bold">
               Le Conseil Exécutif
             </h2>
           </div>
@@ -201,12 +201,12 @@ export default async function AboutPage() {
                     <h4 className="text-lg font-heading font-bold text-white mb-1">
                       {member.name}
                     </h4>
-                    <p className="text-gradus-gold text-[10px] font-mono uppercase tracking-widest mb-3">
+                    <p className="text-accent-text text-[11px] font-mono uppercase tracking-widest mb-3">
                       {member.role}
                     </p>
                     <div className="flex flex-wrap gap-1.5 opacity-60">
                       {(member.tags || []).slice(0, 2).map((tag: string) => (
-                        <span key={tag} className="text-[8px] font-mono px-2 py-0.5 rounded bg-white/10 text-white border border-white/5">
+                        <span key={tag} className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/10 text-white border border-white/5">
                           {tag}
                         </span>
                       ))}

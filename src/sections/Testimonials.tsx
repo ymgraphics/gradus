@@ -119,7 +119,7 @@ export default function Testimonials({ feedbacks }: TestimonialsProps) {
                 )}
                 <div>
                   <div className="text-white font-bold text-lg mb-0.5">{item.name}</div>
-                  <div className="text-accent text-[10px] font-mono tracking-widest uppercase">{item.title}</div>
+                  <div className="text-accent-text text-[11px] font-mono tracking-widest uppercase">{item.title}</div>
                 </div>
               </div>
             </div>

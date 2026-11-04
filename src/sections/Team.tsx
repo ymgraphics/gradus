@@ -33,7 +33,7 @@ export default function Team({ teamMembers = [] }: TeamProps) {
           </h2>
           <Link
             href="/contact"
-            className="hidden md:flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:text-accent hover:border-white/20 transition-all duration-500 interactive"
+            className="hidden md:flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:text-accent-text hover:border-white/20 transition-all duration-500 interactive"
           >
             {lang === "fr" ? "Intégrer le Collectif" : "Join the Collective"}{" "}
             <ArrowUpRight className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function Team({ teamMembers = [] }: TeamProps) {
                       >
                         {member.name}
                       </h3>
-                      <p className="text-accent text-[10px] md:text-[11px] mb-8 font-mono tracking-[0.3em] uppercase font-bold">
+                      <p className="text-accent-text text-[11px] mb-8 font-mono tracking-[0.3em] uppercase font-bold">
                         {member.role}
                       </p>
                     </div>
@@ -105,7 +105,7 @@ export default function Team({ teamMembers = [] }: TeamProps) {
                         {member.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-[9px] text-white/40 uppercase tracking-[0.15em] font-mono"
+                            className="px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-[11px] text-white/60 uppercase tracking-[0.15em] font-mono"
                           >
                             {tag}
                           </span>
@@ -113,7 +113,7 @@ export default function Team({ teamMembers = [] }: TeamProps) {
                       </div>
 
                       {member.isCeo && (
-                        <blockquote className="text-white/30 italic font-light text-lg lg:text-xl leading-relaxed border-l-2 border-accent/30 pl-8 mt-4">
+                        <blockquote className="text-white/60 italic font-light text-lg lg:text-xl leading-relaxed border-l-2 border-accent/30 pl-8 mt-4">
                           <p>
                             {lang === "fr"
                               ? "\"L'excellence n'est pas un acte, c'est une habitude.\""

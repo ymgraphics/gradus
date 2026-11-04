@@ -63,22 +63,22 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-sm font-medium text-gradus-muted">{copy.name}</label>
-          <input required id="name" name="name" type="text" placeholder={copy.namePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 transition-colors" />
+          <input required id="name" name="name" type="text" placeholder={copy.namePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:border-accent/50 transition-colors" />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm font-medium text-gradus-muted">{copy.email}</label>
-          <input required id="email" name="email" type="email" placeholder={copy.emailPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 transition-colors" />
+          <input required id="email" name="email" type="email" placeholder={copy.emailPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:border-accent/50 transition-colors" />
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="subject" className="text-sm font-medium text-gradus-muted">{copy.subject}</label>
-        <input required id="subject" name="subject" type="text" defaultValue={service ? `${lang === "fr" ? "Demande service" : "Service inquiry"}: ${service}` : ""} placeholder={copy.subjectPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 transition-colors" />
+        <input required id="subject" name="subject" type="text" defaultValue={service ? `${lang === "fr" ? "Demande service" : "Service inquiry"}: ${service}` : ""} placeholder={copy.subjectPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:border-accent/50 transition-colors" />
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="message" className="text-sm font-medium text-gradus-muted">{copy.message}</label>
-        <textarea required id="message" name="message" rows={4} placeholder={copy.messagePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 transition-colors resize-none"></textarea>
+        <textarea required id="message" name="message" rows={4} placeholder={copy.messagePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:border-accent/50 transition-colors resize-none"></textarea>
       </div>
 
       {status === "error" && (
@@ -94,7 +94,7 @@ export default function ContactForm() {
         </div>
       )}
 
-      <button disabled={pending} type="submit" className="group w-full flex items-center justify-center gap-2 bg-accent text-gradus-primary py-4 rounded-xl font-bold text-lg hover:shadow-[0_0_30px_rgba(96,80,220,0.3)] transition-all mt-4 interactive disabled:opacity-70 disabled:hover:shadow-none">
+      <button disabled={pending} type="submit" className="group w-full flex items-center justify-center gap-2 bg-accent text-white py-4 rounded-xl font-bold text-lg hover:shadow-[0_0_30px_rgba(96,80,220,0.3)] transition-all mt-4 interactive disabled:opacity-70 disabled:hover:shadow-none">
         {pending ? (
           <>
             {copy.sending} <Loader2 className="w-5 h-5 animate-spin" />

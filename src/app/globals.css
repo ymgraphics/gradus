@@ -8,6 +8,10 @@
   --color-text-primary: #ECEDE9;
   --color-text-secondary: #8E9089;
   --color-accent: #6050DC; /* Majorelle blue */
+  /* Accent for small text. #6050DC is 3.5:1 on void: fine for display sizes
+     and icons, below AA (4.5:1) for anything smaller than ~24px. This shade
+     is 5.0–6.0:1 on every dark surface in the site. */
+  --color-accent-text: #8A7DF0;
 
   /* Legacy aliases — admin runtime overrides target the gradus-* names */
   --color-gradus-primary: var(--color-void);

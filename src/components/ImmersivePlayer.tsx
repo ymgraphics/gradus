@@ -119,7 +119,7 @@ export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect =
         </div>
 
         <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-           <span className="text-white font-mono text-[10px] tracking-[0.3em] uppercase bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+           <span className="text-white font-mono text-[11px] tracking-[0.3em] uppercase bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
              Cliquer pour regarder
            </span>
         </div>
@@ -165,7 +165,7 @@ export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect =
               {/* Floating Header */}
               <div className="absolute top-0 left-0 right-0 p-8 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
                 <div className="flex flex-col">
-                  <span className="text-accent font-mono text-[10px] tracking-[0.3em] uppercase mb-1">Project Video</span>
+                  <span className="text-accent-text font-mono text-[11px] tracking-[0.3em] uppercase mb-1">Project Video</span>
                   <h3 className="text-white text-xl font-heading font-bold">{clientName}</h3>
                 </div>
                 <button 
@@ -197,7 +197,7 @@ export default function ImmersivePlayer({ videoUrl, poster, clientName, aspect =
                   </div>
 
                   <div className="flex items-center gap-6">
-                    <span className="text-white/40 font-mono text-[10px] tracking-widest hidden sm:block">
+                    <span className="text-white/60 font-mono text-[11px] tracking-widest hidden sm:block">
                       {isPlaying ? "PLAYING CINEMATIC" : "PAUSED"}
                     </span>
                     <button className="text-white hover:text-accent transition-colors">

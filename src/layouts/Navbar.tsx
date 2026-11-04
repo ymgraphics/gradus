@@ -92,9 +92,9 @@ export default function Navbar() {
             className="hidden md:flex label-utility text-text-primary/70 hover:text-text-primary transition-colors items-center gap-1.5 interactive"
             aria-label={lang === "fr" ? "Passer en anglais" : "Switch to French"}
           >
-            <span className={lang === "fr" ? "text-accent" : ""}>FR</span>
+            <span className={lang === "fr" ? "text-accent-text" : ""}>FR</span>
             <span className="text-white/30">/</span>
-            <span className={lang === "en" ? "text-accent" : ""}>EN</span>
+            <span className={lang === "en" ? "text-accent-text" : ""}>EN</span>
           </button>
 
           <button
@@ -172,15 +172,15 @@ export default function Navbar() {
                     className="label-utility text-text-primary flex items-center gap-2 interactive"
                     aria-label={lang === "fr" ? "Passer en anglais" : "Switch to French"}
                   >
-                    <span className={lang === "fr" ? "text-accent" : ""}>FR</span>
+                    <span className={lang === "fr" ? "text-accent-text" : ""}>FR</span>
                     <span className="text-white/30">/</span>
-                    <span className={lang === "en" ? "text-accent" : ""}>EN</span>
+                    <span className={lang === "en" ? "text-accent-text" : ""}>EN</span>
                   </button>
 
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="label-utility border border-accent text-text-primary px-6 py-3 hover:bg-accent hover:text-void transition-colors duration-300 inline-block"
+                    className="label-utility border border-accent text-text-primary px-6 py-3 hover:bg-accent hover:text-text-primary transition-colors duration-300 inline-block"
                   >
                     {t("nav.cta")} →
                   </Link>
